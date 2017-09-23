@@ -8,7 +8,10 @@ Quantum Chess is visually the same as traditional chess, however with a few add-
 
 Collaborators:
 
-Rubin Daija \n
+Rubin Daija
+
 Kaan Akturk
+
 Mastan Abdulkhaligli
+
 Pending...
