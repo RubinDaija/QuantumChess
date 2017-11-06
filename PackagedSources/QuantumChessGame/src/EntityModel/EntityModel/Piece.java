@@ -6,21 +6,23 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Piece {
-    private boolean superPosBol;
-    private Color color;
-    private boolean taken;
+    protected boolean superPosBol;
+    protected Color color;
+    protected boolean taken;
     protected int posX;
     protected int posY;
-    private int superPosX;
-    private int superPosY;
-    private boolean superPosAllowed; //if the user observes it there will be no more super pos
-    private BufferedImage fullImage;
-    private BufferedImage superPosImage;
+    protected int superPosX;
+    protected int superPosY;
+    protected boolean superPosAllowed; //if the user observes it there will be no more super pos
+    protected BufferedImage fullImage;
+    protected BufferedImage superPosImage;
     protected int player;
     protected ArrayList<Point> positions;
     private int iterator;
+    protected Iterator trueIterator;
 
     public Piece(int initialX, int initialY, String fullPicName, String halfPicName,int sizex, int sizey, Color color, int player){
         superPosBol = false;
@@ -38,6 +40,7 @@ public abstract class Piece {
         this.player = player;
         positions = new ArrayList<Point>();
         iterator = 0;
+        trueIterator = positions.iterator();
     }
 
     public Piece(Piece copy){
@@ -54,18 +57,43 @@ public abstract class Piece {
         iterator = 0;
     }
 
-    public boolean validPos(int x, int y){
-        Point tmp;
-        while (hasNext()){
-            tmp = getNext();
-            if((tmp != null) && (x == tmp.getX()) && (y == tmp.getY() )){
-                return true;
-            }
+    public boolean validPos(int x, int y, Piece[][] piecesOnBoard){
+        trueIterator = positions.iterator();
+        if (positions.size() > 0) {
+
+            Point tmp;
+            boolean furtherBlocked = false;
+             do{
+                tmp = (Point) trueIterator.next();
+
+                if (tmp == null) {
+                    furtherBlocked = false;
+                } else if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null) {
+                    furtherBlocked = true;
+                }
+                if ((tmp != null)&&(x == tmp.getX()) && (y == tmp.getY()) && !furtherBlocked) {
+                    trueIterator = positions.iterator();
+                    return true;
+                }
+            }while (trueIterator.hasNext());
+            trueIterator = positions.iterator();
         }
         return false;
     }
 
-    public abstract void move(int x, int y);
+
+//    public boolean validPos(int x, int y){
+//        Point tmp;
+//        while (hasNext()){
+//            tmp = getNext();
+//            if((tmp != null) && (x == tmp.getX()) && (y == tmp.getY() )){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+   // public abstract void move(int x, int y);
     protected void calculatePossibleMoves(){
         positions = new ArrayList<Point>();
     }
@@ -117,6 +145,9 @@ public abstract class Piece {
     }
 
     public boolean hasNext(){
+        while((iterator < positions.size()) && (positions.get(iterator) == null) ){
+            iterator++;
+        }
         if (iterator < positions.size()){
             return true;
         }else{
@@ -126,16 +157,16 @@ public abstract class Piece {
     }
 
     public Point getNext() {
-        while(positions.get(iterator) == null){
-            iterator++;
-        }
         return positions.get(iterator++);
     }
-
-    public void continueUntilNull(){
-        while (hasNext() && (positions.get(iterator) != null)){
+    public void pushIteratorToNull(){
+        while ((iterator < positions.size()) && (positions.get(iterator) != null)){
             iterator++;
         }
+    }
+    private Point getNextExcNull(){
+        iterator = iterator + 1;
+        return positions.get(iterator - 1);
     }
 
 

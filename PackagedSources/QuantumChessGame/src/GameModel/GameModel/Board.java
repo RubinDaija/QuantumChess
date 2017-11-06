@@ -1,14 +1,7 @@
 package GameModel;
 
+
 import EntityModel.*;
-import EntityModel.Bishop;
-import EntityModel.King;
-import EntityModel.Knight;
-import EntityModel.MouseListenerBoard;
-import EntityModel.Pawn;
-import EntityModel.Piece;
-import EntityModel.Queen;
-import EntityModel.Rook;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -135,16 +128,32 @@ public class Board extends Canvas{
                                     renderSquareGraphic(g, x, y, black);
                                 }
                             }
-                            if (piecesOnBoard[x][y] != null){
-                                g.drawImage(piecesOnBoard[x][y].getFullImage(),x* unitX,y* unitY,unitX,unitY,null);
-                            }
                         }
                     }
                     if (pieceSel){
                         Point tmp;
                         while(piecesOnBoard[pieceSelx][pieceSely].hasNext()){
                             tmp = piecesOnBoard[pieceSelx][pieceSely].getNext();
-                            renderSquareGraphic(g,(int)tmp.getX(),(int)tmp.getY(),Color.GREEN);
+                            if (piecesOnBoard[pieceSelx][pieceSely].getClass() == Knight.class) {
+                                renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
+                            }
+                            else{
+                                if (piecesOnBoard[(int)tmp.getX()][(int)tmp.getY()] != null){
+                                    piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull();
+                                }
+                                else{
+                                    renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
+                                }
+                            }
+
+                        }
+                    }
+
+                    for (int y = 0 ; y < 8; y++) {
+                        for (int x = 0; x < 8; x++) {
+                            if (piecesOnBoard[x][y] != null) {
+                                g.drawImage(piecesOnBoard[x][y].getFullImage(), x * unitX, y * unitY, unitX, unitY, null);
+                            }
                         }
                     }
 
@@ -182,13 +191,13 @@ public class Board extends Canvas{
 
     public boolean movePiece(int x, int y) {
         print("--Moving Piece--");
-        if ((piecesOnBoard[x][y] == null) && (piecesOnBoard[pieceSelx][pieceSely]).validPos(x,y)) {
+        if ((piecesOnBoard[x][y] == null) && (piecesOnBoard[pieceSelx][pieceSely]).validPos(x,y,piecesOnBoard)) {
             System.out.println("Piece sel: " + pieceSel);
             System.out.println("Piece sel moving: " + ((pieceSelx != x) || (pieceSely != y)) + "\n" + "x: " + pieceSelx + "  y: " + pieceSely);
             if (pieceSel && ((pieceSelx != x) || (pieceSely != y))) {
 
                 piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
-                piecesOnBoard[x][y].updatePiecePos(x,y);
+                piecesOnBoard[x][y].updatePiecePos(x, y);
                 piecesOnBoard[pieceSelx][pieceSely] = null;
                 piecesOnBoard[pieceSelx][pieceSely] = null;
                 mouseHasClicked = false;
@@ -196,7 +205,7 @@ public class Board extends Canvas{
                 return true;
             }
 
-        }else if( piecesOnBoard[pieceSelx][pieceSely].validPos(x,y) ) {
+//        }else if( piecesOnBoard[pieceSelx][pieceSely].validPos(x,y,piecesOnBoard) ) {
 
 
         }else {

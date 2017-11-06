@@ -8,7 +8,7 @@ public class Queen extends Piece {
         calculatePossibleMoves();
     }
 
-    @Override
+    //@Override
     public void move(int x, int y) {
 
     }
@@ -17,8 +17,9 @@ public class Queen extends Piece {
         super.calculatePossibleMoves();
 
         int tmp;
+        int tmp2;
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posY - i;
             if ( tmp >= 0) {
                 positions.add(new Point(posX, tmp));
@@ -28,19 +29,20 @@ public class Queen extends Piece {
         }
         positions.add(null);
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posY - i;
-            if ( tmp >= 0) {
-                positions.add(new Point(posX + i, tmp));
+            tmp2 = posX + i;
+            if ( (tmp >= 0) && (tmp2 <= 7)) {
+                positions.add(new Point(tmp2, tmp));
             } else{
                 break;
             }
         }
         positions.add(null);
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posX + i;
-            if (tmp < 8) {
+            if (tmp <= 7) {
                 positions.add(new Point(tmp, posY));
             } else{
                 break;
@@ -48,19 +50,20 @@ public class Queen extends Piece {
         }
         positions.add(null);
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posX + i;
-            if (tmp < 8) {
-                positions.add(new Point(tmp, posY + i));
+            tmp2 = posY + i;
+            if ((tmp <= 7) && (tmp2 <= 7)) {
+                positions.add(new Point(tmp, tmp2));
             } else{
                 break;
             }
         }
         positions.add(null);
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posY + i;
-            if (tmp < 8) {
+            if (tmp <= 7) {
                 positions.add(new Point(posX , tmp));
             } else{
                 break;
@@ -68,17 +71,18 @@ public class Queen extends Piece {
         }
         positions.add(null);
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posY + i;
-            if (tmp < 8) {
-                positions.add(new Point(posX - i , tmp));
+            tmp2 = posX - i;
+            if ((tmp <= 7) && (tmp2 >= 0)) {
+                positions.add(new Point( tmp2, tmp));
             } else{
                 break;
             }
         }
         positions.add(null);
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posX - i;
             if (tmp >= 0) {
                 positions.add(new Point(tmp, posY));
@@ -88,10 +92,11 @@ public class Queen extends Piece {
         }
         positions.add(null);
 
-        for (int i = 0; i <= 7; i++){
+        for (int i = 1; i <= 7; i++){
             tmp = posX - i;
-            if (tmp >= 0) {
-                positions.add(new Point(tmp, posY - i));
+            tmp2 = posY - i;
+            if ((tmp >= 0) && (tmp2 >= 0)) {
+                positions.add(new Point(tmp,tmp2 ));
             } else{
                 break;
             }

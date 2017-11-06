@@ -1,3 +1,4 @@
+
 package EntityModel;
 
 import GameModel.Board;

@@ -6,7 +6,7 @@ import java.awt.event.WindowEvent;
 
 public class GameManager {
     public static void main(String[] args){
-        final EntityModel.QuantumChess quantumChess = new EntityModel.QuantumChess(640,640);
+        final QuantumChess quantumChess = new QuantumChess(640,640);
         quantumChess.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
