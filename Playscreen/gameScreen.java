@@ -1,5 +1,13 @@
-import java.awt.*; 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import java.awt.Graphics;
+import javax.swing.JFrame;
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.*;
+import java.awt.*;
 
 
 public class gameScreen //extends JFrame
@@ -7,9 +15,25 @@ public class gameScreen //extends JFrame
   
   public static void main(String[] args) 
   {
+    String player1Name = "";
+    String player2Name = "";
+    
+    JLabel playOneLabel = new JLabel();
+    JLabel playTwoLabel = new JLabel();
+    
+    playOneLabel.setText(player1Name);
+    playTwoLabel.setText(player2Name);
+    
+    
+    
+    
+    
     JFrame frame = new JFrame("JLabel");
     
     JLabel background=new JLabel(new ImageIcon("background.jpg"));
+    
+    background.add(playOneLabel);
+    background.add(playTwoLabel);
     
     int frameSizeX = 1000;
     int frameSizeY = 1000;
@@ -108,6 +132,8 @@ public class gameScreen //extends JFrame
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setLocation(dx, dy); 
     frame.setVisible(true);
+    
   }
+  
 }
   
