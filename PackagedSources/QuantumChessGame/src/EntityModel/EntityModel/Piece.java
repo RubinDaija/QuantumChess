@@ -169,5 +169,9 @@ public abstract class Piece {
         return positions.get(iterator - 1);
     }
 
+    public int getPlayer(){
+        return player;
+    }
+
 
 }

@@ -33,6 +33,8 @@ public class Board extends Canvas{
     private volatile int pieceSely;
     private volatile boolean pieceSel;
 
+    private int player = 0;
+
     public Board (int width, int height){
         this.width = width;
         this.height = height;
@@ -189,7 +191,7 @@ public class Board extends Canvas{
         }
     }
 
-    public boolean movePiece(int x, int y) {
+    private boolean movePiece(int x, int y) {
         print("--Moving Piece--");
         if ((piecesOnBoard[x][y] == null) && (piecesOnBoard[pieceSelx][pieceSely]).validPos(x,y,piecesOnBoard)) {
             System.out.println("Piece sel: " + pieceSel);
@@ -205,7 +207,7 @@ public class Board extends Canvas{
                 return true;
             }
 
-//        }else if( piecesOnBoard[pieceSelx][pieceSely].validPos(x,y,piecesOnBoard) ) {
+//        }else if( piecesOnBoard[x][y].getPlayer() != player) {
 
 
         }else {
