@@ -31,10 +31,15 @@ public class menu
     
     menuFrame.setVisible(true);
     
-    cardPanel.add(menuPanelObj.getMenuPanel(),"Menu");
-    cardPanel.add(menuPanelObj.getAboutPanel(),"About");
-    cardPanel.add(menuPanelObj.getCreditsPanel(),"Credits");
-    cardPanel.add(menuPanelObj.getStartGamePanel(),"StartGame");
+    JPanel menuP = menuPanelObj.getMenuPanel();
+    JPanel aboutP = menuPanelObj.getAboutPanel();
+    JPanel creditsP = menuPanelObj.getCreditsPanel();
+    JPanel startGameP = menuPanelObj.getStartGamePanel();
+    
+    cardPanel.add(menuP,"Menu");
+    cardPanel.add(aboutP,"About");
+    cardPanel.add(creditsP,"Credits");
+    cardPanel.add(startGameP,"StartGame");
   
      
     menuFrame.add(cardPanel);
