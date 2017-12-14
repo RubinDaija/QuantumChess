@@ -3,13 +3,11 @@ import java.awt.*;
 
 public class menuPanel extends JPanel
 {
-  //Panels
   JPanel mainMenuPanel;
   JPanel creditsPanel;
   JPanel aboutPanel;
   JPanel playPanel;
-  
-  //Buttons
+      
   JButton aboutButton;
   JButton creditsButton;
   JButton newGameButton;
@@ -32,7 +30,6 @@ public class menuPanel extends JPanel
      JLabel background= new JLabel(new ImageIcon("background.jpg"));
      JLabel chessLogo= new JLabel(new ImageIcon("chess.gif"));
      
-     //Adding About button and its panel on menu panel
      JPanel aboutButtonPanel = new JPanel();  
      aboutButtonPanel.setBounds(250,400, 100, 100 );
      aboutButtonPanel.setLayout(new GridLayout());
@@ -40,7 +37,6 @@ public class menuPanel extends JPanel
      aboutButton = new JButton("Help");
      aboutButtonPanel.add(aboutButton);
       
-     //Adding Credits button and its panel on menu panel
      JPanel creditsButtonPanel = new JPanel();
      creditsButtonPanel.setBounds(250,500, 100, 100 );
      creditsButtonPanel.setLayout(new GridLayout());
@@ -48,7 +44,6 @@ public class menuPanel extends JPanel
      creditsButton = new JButton("Credits"); 
      creditsButtonPanel.add(creditsButton);
      
-     //Adding Start button and its panel on menu panel
      JPanel startButtonPanel = new JPanel();
      newGameButton = new JButton("New Game");
      startButtonPanel.setLayout(new GridLayout());
