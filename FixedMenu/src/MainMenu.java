@@ -7,15 +7,15 @@ public class MainMenu extends JPanel {
     JButton aboutButton;
     JButton creditsButton;
     JButton newGameButton;
-    JPanel mainMenuPanel = new JPanel();
-    menuPanel mp = new menuPanel();
+    JPanel mainMenuPanel;
+  //  menuPanel mp = new menuPanel();
     public MainMenu() {
-        mp.getMenuPanel();
-        //initComponents();
+       // mp.getMenuPanel();
+      // mp        
     }
 
 
-    public void initComponents(){
+    public JPanel initComponents(){  ///------
 
         JLabel background= new JLabel(new ImageIcon("background.jpg"));
         JLabel chessLogo= new JLabel(new ImageIcon("chess.gif"));
@@ -45,27 +45,28 @@ public class MainMenu extends JPanel {
         startButtonPanel.add(newGameButton);
 
 
-        mainMenuPanel.add(startButtonPanel);
-        mainMenuPanel.add(aboutButtonPanel);
-        mainMenuPanel.add(creditsButtonPanel);
+        background.add(startButtonPanel);  //-----
+        background.add(aboutButtonPanel);   //-----
+        background.add(creditsButtonPanel);  //----
 
-        //chessLogo.setBounds(30,40, 350,  300 );
-        //background.add(chessLogo);
+        chessLogo.setBounds(30,40, 350,  300 );
+        background.add(chessLogo);
 
         mainMenuPanel = new JPanel();
 
         mainMenuPanel.setLayout(new BoxLayout(mainMenuPanel, BoxLayout.Y_AXIS));
-        //mainMenuPanel.add(background);
+        mainMenuPanel.add(background);
         mainMenuPanel.setVisible(true);
         this.add(mainMenuPanel);
+        
+        return mainMenuPanel;  ///-----
 
     }
-
-
+    
 
     public static void main(String []args){
         MainMenu asdf = new MainMenu();
-        asdf.show();
+    //    asdf.show();
     }
 
 }
