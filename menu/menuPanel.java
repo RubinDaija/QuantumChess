@@ -25,7 +25,7 @@ public class menuPanel extends JPanel
   backButton2 = new JButton("Back");*/
   }
   
-  
+  //Returns menuPanel
   public  JPanel getMenuPanel()
   {
   
@@ -75,6 +75,7 @@ public class menuPanel extends JPanel
       
   }
   
+  //Returns Credits Panel
   public JPanel getCreditsPanel()
   {
       JLabel background= new JLabel(new ImageIcon("background.jpg"));

@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 import java.awt.*;
-
 public class menu
 {
   JFrame menuFrame;
@@ -53,7 +52,6 @@ public class menu
   //  menuFrame.setVisible(true);
   }
   
-  //Implementing ActionListener Class
   class listener implements ActionListener
   {
    
@@ -62,40 +60,33 @@ public class menu
       JComponent selecetedButton = (JComponent) e.getSource();
       CardLayout card = (CardLayout)(cardPanel.getLayout());
      
-      
      if(selecetedButton == menuPanelObj.backButton)
      {
-       //Show MenuPanel
        card.show(cardPanel,"Menu");
        
      }
       else if(selecetedButton == menuPanelObj.backButton1)
      {
-       //Show MenuPanel 
        card.show(cardPanel,"Menu");
        
      }
       else  if(selecetedButton == menuPanelObj.backButton2)
      {
-        //Show MenuPanel
        card.show(cardPanel,"Menu");
        
      }
      else if(selecetedButton == menuPanelObj.creditsButton)
      {
-       //Show Credits Panel
        card.show(cardPanel,"Credits");
 
      }
      else if(selecetedButton == menuPanelObj.newGameButton)
      {
-       //Show StartGame Panel
        card.show(cardPanel,"StartGame");
 
      }
      else if(selecetedButton == menuPanelObj.aboutButton)
      {
-       //Show about panel
        card.show(cardPanel,"About");
        
      }
