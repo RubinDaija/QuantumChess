@@ -58,9 +58,9 @@ public abstract class Piece {
     }
 
     public boolean validPos(int x, int y, Piece[][] piecesOnBoard){
+        System.out.println("in Valid pos");
         trueIterator = positions.iterator();
         if (positions.size() > 0) {
-
             Point tmp;
             boolean furtherBlocked = false;
              do{
@@ -68,8 +68,13 @@ public abstract class Piece {
 
                 if (tmp == null) {
                     furtherBlocked = false;
-                } else if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null) {
-                    furtherBlocked = true;
+                } else if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null ) {
+                    if(piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this))//if not same color piece could be taken
+                        furtherBlocked = false;
+                    else{
+                        furtherBlocked = true;
+                        System.out.println("Same Color" +tmp.getX() + tmp.getY());
+                    }
                 }
                 if ((tmp != null)&&(x == tmp.getX()) && (y == tmp.getY()) && !furtherBlocked) {
                     trueIterator = positions.iterator();
@@ -120,6 +125,9 @@ public abstract class Piece {
         superPosX = x;
     }
 
+    public boolean isOpponent(Piece piece){
+        return piece != null && !piece.color.equals(this.color);
+    }
     public int getPosx(){
         return posX;
     }

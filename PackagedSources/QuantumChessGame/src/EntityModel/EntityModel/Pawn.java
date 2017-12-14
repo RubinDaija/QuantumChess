@@ -45,9 +45,20 @@ public class Pawn extends Piece {
         super.calculatePossibleMoves();
         if ((player == 1) && (posY != 0)) {
             positions.add(new Point(posX, posY -1));
+            if (posY == 6) // first move of Pawn can be 2 squares.
+             positions.add(new Point(posX, posY -2)); /* */
         } else if (posY != 7) {
             positions.add(new Point(posX, posY + 1));
 
+        }else if ((player == 2) && (posY != 0)) {
+            positions.add(new Point(posX, posY +1));
+            if (posY == 1) // first move of Pawn can be 2 squares. Maybe NoOfMoves?
+                positions.add(new Point(posX, posY +2)); /* */
+        } else if (posY != 7) {
+            positions.add(new Point(posX, posY - 1));
+
         }
+
+
     }
 }

@@ -134,10 +134,12 @@ public class Board extends Canvas{
                     }
                     if (pieceSel){
                         Point tmp;
+                        /*WARN FOR PAWN INFINITE LOOP TILL YOU SELECT MOVEMENT OR ANOTHER PIECE */
                         while(piecesOnBoard[pieceSelx][pieceSely].hasNext()){
                             tmp = piecesOnBoard[pieceSelx][pieceSely].getNext();
-                            if (piecesOnBoard[pieceSelx][pieceSely].getClass() == Knight.class) {
+                            if (piecesOnBoard[pieceSelx][pieceSely].getClass() == Knight.class) { //What is special for the knight?
                                 renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
+                                System.out.println("HERE I AM WITH : "+tmp.getX() +" " +tmp.getY());
                             }
                             else{
                                 if (piecesOnBoard[(int)tmp.getX()][(int)tmp.getY()] != null){
@@ -184,6 +186,7 @@ public class Board extends Canvas{
             pieceSelx = x;
             mouseHasClicked = true;
             System.out.println("Piece selected");
+            System.out.println(" With (x,y) =" + x + " ,"+  y);
         }
         else {
             pieceSel = false;
