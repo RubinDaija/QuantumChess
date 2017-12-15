@@ -14,7 +14,7 @@ import java.awt.image.BufferStrategy;
 
 public class Board extends Canvas implements ActionListener {
 
-    private enum State {superpos, tunneling, entangled, none};
+    public enum State {superpos, tunneling, entangled, none};
     State status;
     private Color white = new Color(255,250,204); //very light brown color
     private Color black = new Color (153,76,0); // dark brown color
@@ -83,6 +83,7 @@ public class Board extends Canvas implements ActionListener {
                 }else{
                     selectAPiece(cordXOfMouseClick, cordYOfMouseClick);
                 }
+                status = State.none;
                 boardGraphics();
 
             }
@@ -140,21 +141,46 @@ public class Board extends Canvas implements ActionListener {
                     }
                     if (pieceSel &&  !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
                         Point tmp;
-                        while(piecesOnBoard[pieceSelx][pieceSely].hasNext()){
+                        boolean passPiece = true;
+                        int opponentsEncountered = 0;
+                        while(piecesOnBoard[pieceSelx][pieceSely].hasNext()) {
                             tmp = piecesOnBoard[pieceSelx][pieceSely].getNext();
-                            if (piecesOnBoard[pieceSelx][pieceSely].getClass() == Knight.class) {
-                                renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
+                            if (tmp != null) {
+                                if (piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()] != null) {
+                                    if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered == 0) && (status != State.tunneling)) {
+                                        opponentsEncountered++;
+                                        renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.RED);
+//                                    } else if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered <= 1) && (status == State.tunneling) && passPiece) {
+//                                        opponentsEncountered++;
+//                                        renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.RED);
+                                    }
+                                    if ((status == State.tunneling) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) ){
+                                        piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull(State.none);
+                                    }
+                                    else if (passPiece) {
+                                        passPiece = false;
+                                        piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull(status);
+//                                    } else if (!piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) {
+//                                        passPiece = true;
+//                                        piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull(State.none);
+//                                    } else {
+//                                        passPiece = true;
+                                    }
+
+                                } else {
+                                    opponentsEncountered = 0;
+                                    passPiece = true;
+                                    renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
+
+                                }
                             }
                             else{
-                                if (piecesOnBoard[(int)tmp.getX()][(int)tmp.getY()] != null){
-                                    piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull();
+                                    passPiece = true;
+                                    opponentsEncountered = 0;
                                 }
-                                else{
-                                    renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
-                                }
+
                             }
 
-                        }
                     }
 
 
@@ -250,8 +276,6 @@ public class Board extends Canvas implements ActionListener {
             status= State.none;
             boardGraphics();
             return true;
-
-
         }else {
             print("the movement is not allowed on that place");
             if (x != pieceSelx || y != pieceSely) {
@@ -345,6 +369,9 @@ public class Board extends Canvas implements ActionListener {
                     piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
                 }
             }
+        }
+        else if("Tunneling".equals(e.getActionCommand())){
+            status = State.tunneling;
         }
         boardGraphics();
     }
