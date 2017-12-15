@@ -240,7 +240,16 @@ public class Board extends Canvas implements ActionListener {
                 return true;
             }
 
-//        }else if( piecesOnBoard[pieceSelx][pieceSely].validPos(x,y,piecesOnBoard) ) {
+        }else if( piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard) ) {
+            System.out.println("MovePiece can take?");
+            piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
+            piecesOnBoard[x][y].updatePiecePos(x, y);
+            piecesOnBoard[pieceSelx][pieceSely] = null;
+            mouseHasClicked = false;
+            pieceSel = false;
+            status= State.none;
+            boardGraphics();
+            return true;
 
 
         }else {

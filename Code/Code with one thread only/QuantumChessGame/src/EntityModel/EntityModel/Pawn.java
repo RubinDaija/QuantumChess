@@ -12,7 +12,7 @@ public class Pawn extends Piece {
 
     //@Override
     public void move(int x, int y) {
-
+        moved = true;
     }
 
 //    @Override
@@ -45,9 +45,18 @@ public class Pawn extends Piece {
         super.calculatePossibleMoves();
         if ((player == 1) && (posY != 0)) {
             positions.add(new Point(posX, posY -1));
+            if (!this.moved){
+                positions.add(new Point(posX,posY -2 ));
+            }
         } else if (posY != 7) {
             positions.add(new Point(posX, posY + 1));
+            if (!this.moved){
+                positions.add(new Point(posX, posY + 2));
+            }
+
 
         }
+        moved = true;
     }
+
 }

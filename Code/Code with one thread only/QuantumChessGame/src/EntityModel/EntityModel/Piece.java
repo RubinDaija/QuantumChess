@@ -23,6 +23,7 @@ public abstract class Piece {
     protected int player;
     protected ArrayList<Point> positions;
     private int iterator;
+    protected boolean moved;
     protected Iterator trueIterator;
 
     public Piece(int initialX, int initialY, String fullPicName, String halfPicName,int sizex, int sizey, Color color, int player){
@@ -44,6 +45,7 @@ public abstract class Piece {
         trueIterator = positions.iterator();
 
         dummy = false;
+        moved = false;
     }
 
 //    public Piece(Piece copy){
@@ -68,13 +70,14 @@ public abstract class Piece {
         dummy = true;
         superPosBol = true;
     }
+
     public boolean validPos(int x, int y, Piece[][] piecesOnBoard){
         trueIterator = positions.iterator();
         if (positions.size() > 0) {
 
             Point tmp;
             boolean furtherBlocked = false;
-             do{
+            do{
                 tmp = (Point) trueIterator.next();
 
                 if (tmp == null) {
@@ -91,18 +94,57 @@ public abstract class Piece {
         }
         return false;
     }
+    /*
+    Checks if there is a chance of taking a piece in valid positions. Same as valid pos just added isOpponent so piece can understand the way opponets.
+     */
+    public  boolean canTake(int destinationX, int destinationY, Piece[][] piecesOnBoard){
+
+        if (this.equals(Pawn.class)){}
+        else {}
+
+        trueIterator = positions.iterator();
+        int  counter = 0;
+        if (positions.size() > 0) {
+
+            Point tmp;
+            boolean furtherBlocked = false;
+
+            do{
+                tmp = (Point) trueIterator.next();
+
+                if (tmp == null) {
+                    furtherBlocked = false;
+                    counter = 0;
+                }
+                else{
+                    if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null && !piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this)) {
+                        furtherBlocked = true;
+                    }
+                    else if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null && piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this) && (!furtherBlocked)) {
+                        counter++;
+                    }
+
+                }
+                if (tmp != null && (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())]  != null &&(destinationX == tmp.getX()) && (destinationY == tmp.getY()) && !furtherBlocked && piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this)) && (counter == 1) ) {
+                    return true;
+                }
 
 
-//    public boolean validPos(int x, int y){
-//        Point tmp;
-//        while (hasNext()){
-//            tmp = getNext();
-//            if((tmp != null) && (x == tmp.getX()) && (y == tmp.getY() )){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+
+            }while (trueIterator.hasNext());
+            //trueIterator = positions.iterator();
+        }
+
+
+            return false;
+    }
+    public boolean isOpponent(Piece piece){
+
+
+        return piece != null && piece.color != this.color;
+    }
+
+
 
    // public abstract void move(int x, int y);
     public boolean isDummy(){
