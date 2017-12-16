@@ -141,7 +141,7 @@ public class Board extends Canvas implements ActionListener {
                     }
                     if (pieceSel &&  !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
                         Point tmp;
-                        boolean passPiece = true;
+                        int passPiece = 0;
                         int opponentsEncountered = 0;
                         while(piecesOnBoard[pieceSelx][pieceSely].hasNext()) {
                             tmp = piecesOnBoard[pieceSelx][pieceSely].getNext();
@@ -157,25 +157,25 @@ public class Board extends Canvas implements ActionListener {
                                     if ((status == State.tunneling) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) ){
                                         piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull(State.none);
                                     }
-                                    else if (passPiece) {
-                                        passPiece = false;
+                                    else if (passPiece == 0) {
+                                        passPiece++;
                                         piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull(status);
 //                                    } else if (!piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) {
 //                                        passPiece = true;
 //                                        piecesOnBoard[pieceSelx][pieceSely].pushIteratorToNull(State.none);
 //                                    } else {
 //                                        passPiece = true;
+                                    }else {
+                                        passPiece++;
                                     }
 
-                                } else {
-                                    opponentsEncountered = 0;
-                                    passPiece = true;
+                                } else if(passPiece <= 1) {
                                     renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
 
                                 }
                             }
                             else{
-                                    passPiece = true;
+                                    passPiece = 0;
                                     opponentsEncountered = 0;
                                 }
 
@@ -238,7 +238,7 @@ public class Board extends Canvas implements ActionListener {
 
     public boolean movePiece(int x, int y) {
         print("--Moving Piece--");
-        if ((piecesOnBoard[x][y] == null) && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()  && (piecesOnBoard[pieceSelx][pieceSely]).validPos(x,y,piecesOnBoard) ) {
+        if ((piecesOnBoard[x][y] == null) && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()  && (piecesOnBoard[pieceSelx][pieceSely]).validPos(x,y,piecesOnBoard,status) ) {
             System.out.println("Piece sel: " + pieceSel);
             System.out.println("Piece sel moving: " + ((pieceSelx != x) || (pieceSely != y)) + "\n" + "x: " + pieceSelx + "  y: " + pieceSely);
             if (pieceSel && ((pieceSelx != x) || (pieceSely != y))) {
@@ -251,8 +251,8 @@ public class Board extends Canvas implements ActionListener {
                 else{ //if superpos is selected this will be done
                     piecesOnBoard[x][y] = new Piece(x,y,pieceSelx,pieceSely) {
                         @Override
-                        public boolean validPos(int x, int y, Piece[][] piecesOnBoard) {
-                            return super.validPos(x, y, piecesOnBoard);
+                        public boolean validPos(int x, int y, Piece[][] piecesOnBoard,State state) {
+                            return super.validPos(x, y, piecesOnBoard,State.none);
                         }
                     };
                     piecesOnBoard[pieceSelx][pieceSely].setSuperPosX(x);

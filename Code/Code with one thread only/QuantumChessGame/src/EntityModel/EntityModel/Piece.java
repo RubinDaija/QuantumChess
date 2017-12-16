@@ -24,10 +24,11 @@ public abstract class Piece {
     protected BufferedImage superPosImage;
     protected int player;
     protected ArrayList<Point> positions;
-    private int iterator;
-    protected Iterator trueIterator;
+    private int iterator; //inhouse created iterator
+    protected Iterator trueIterator; //using array lists iterator
     protected boolean moved;
 
+    //the constructor
     public Piece(int initialX, int initialY, String fullPicName, String halfPicName,int sizex, int sizey, Color color, int player){
         superPosBol = false;
         this.color = color;
@@ -64,6 +65,8 @@ public abstract class Piece {
 //        iterator = 0;
 //    }
 
+
+    //i used to create a dummy piece
     public Piece(int superPosX, int superPosY, int parentx, int parentY){ //constructor for dummy piece
         this.superPosX = superPosX;
         this.superPosY = superPosY;
@@ -72,17 +75,23 @@ public abstract class Piece {
         dummy = true;
         superPosBol = true;
     }
-    public boolean validPos(int x, int y, Piece[][] piecesOnBoard){
+
+    //checks if the position selected x ,y is valid for this piece
+    public boolean validPos(int x, int y, Piece[][] piecesOnBoard, Board.State state){
         trueIterator = positions.iterator();
         if (positions.size() > 0) {
 
             Point tmp;
+            int piecesPassed = 0;
             boolean furtherBlocked = false;
              do{
                 tmp = (Point) trueIterator.next();
 
                 if (tmp == null) {
                     furtherBlocked = false;
+                    piecesPassed = 0;
+                } else if ((state == Board.State.tunneling) && (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null) && (piecesPassed == 0) && (!piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this))) {
+                    piecesPassed++;
                 } else if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null) {
                     furtherBlocked = true;
                 }
@@ -150,9 +159,12 @@ public abstract class Piece {
 //    }
 
    // public abstract void move(int x, int y);
+
     public boolean isDummy(){
         return dummy;
     }
+
+    //is in seperate pieces defined specially
     protected void calculatePossibleMoves(){
         positions = new ArrayList<Point>();
     }
@@ -252,10 +264,6 @@ public abstract class Piece {
                 iterator++;
             }
         }
-    }
-    private Point getNextExcNull(){
-        iterator = iterator + 1;
-        return positions.get(iterator - 1);
     }
 
     public boolean isOpponent( Piece piece){

@@ -1,5 +1,7 @@
 package EntityModel;
 
+import GameModel.Board;
+
 import java.awt.*;
 
 public class Knight extends Piece {
@@ -14,7 +16,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public boolean validPos(int x, int y, Piece[][] piecesOnBoard) {
+    public boolean validPos(int x, int y, Piece[][] piecesOnBoard, Board.State state) {
         Point tmp;
         while (hasNext()){
             tmp = getNext();
