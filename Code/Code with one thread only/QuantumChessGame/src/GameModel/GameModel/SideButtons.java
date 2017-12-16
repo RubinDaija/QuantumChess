@@ -40,9 +40,6 @@ public class SideButtons extends JPanel{
         add(observe);
         add(surrender);
         add(swap);
-<<<<<<< HEAD
-        this.setVisible(true);
-=======
 
         disableEverything();
     }
@@ -85,7 +82,6 @@ public class SideButtons extends JPanel{
         observe.setVisible(false);
         surrender.setVisible(false);
         swap.setVisible(false);
->>>>>>> 263ba5f3874e94511bc784dd1d28198150be7b93
     }
 
     @Override

@@ -3,7 +3,6 @@ package GameModel;
 
 import EntityModel.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,19 +90,25 @@ public class Board extends Canvas implements ActionListener {
                     cordYOfMouseClick = e.getY() / unitY;
                     print("Cordx.sys: " + cordXOfMouseClick + " Cordy.sys: " + cordYOfMouseClick);
                 }
+                if ((piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)&&(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() != turn)){
+                    pieceSel = false;
+                }
                 if (pieceSel && (status != State.entangled)) {
                     movePiece(cordXOfMouseClick, cordYOfMouseClick);
 //                    pieceSel = false;
                 }
+
                 //checking if it is entangeling another piece
                 else if((status == State.entangled) && piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick])){
                     entangledPieceSel = true;
                     entangledPieceSelx = cordXOfMouseClick;
                     entangledPieceSely = cordYOfMouseClick;
                 }
-                else {
+
+                else if ((piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)&&(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() == turn)) {
                     selectAPiece(cordXOfMouseClick, cordYOfMouseClick);
                 }
+
                 status = State.none;
                 boardGraphics();
 
@@ -377,10 +382,11 @@ public class Board extends Canvas implements ActionListener {
                 mouseHasClicked = false;
                 pieceSel = false;
                 status= State.none;
+                changeTurn();
                 boardGraphics();
                 return true;
             }
-
+        //the piece is being taken
         }else if(!piecesOnBoard[pieceSelx][pieceSely].isDummy() && !entangledPieceSel && (piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status))) { //entangled pieces should not be able to take
             System.out.println("MovePiece can take?");
             Piece taken = piecesOnBoard[x][y];
@@ -503,22 +509,7 @@ public class Board extends Canvas implements ActionListener {
         }
         else if ("Swap".equals(e.getActionCommand())){
 
-            if ((pieceSely== 0 |pieceSely == 7) && (piecesOnBoard[pieceSelx][pieceSely].getClass().equals(Pawn.class))){
-                Piece oldPawn = piecesOnBoard[pieceSelx][pieceSely];
-                piecesOnBoard[pieceSelx][pieceSely] = null;
-                if (oldPawn.getColor().equals(Color.BLACK)){
-                    piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/black_bishop_full.png","piece_pictures/black_bishop_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
-                }
-                else{
-
-                }
-
-
-
-            }
-            
         }
-
         boardGraphics();
     }
 
@@ -547,5 +538,9 @@ public class Board extends Canvas implements ActionListener {
             return new Rook(piece,((piece.getPlayer()%2)+1));
         }
         return null;
+    }
+
+    public void changeTurn(){
+        turn = (turn%2) + 1;
     }
 }

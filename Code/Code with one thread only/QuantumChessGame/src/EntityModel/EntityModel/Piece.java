@@ -12,8 +12,6 @@ import java.util.Iterator;
 
 public abstract class Piece {
     protected boolean superPosBol;
-
-
     protected Color color;
     //protected boolean taken;
     private boolean dummy;
@@ -299,8 +297,5 @@ public abstract class Piece {
 
     public int getPlayer(){
         return player;
-    }
-    public Color getColor() {
-        return color;
     }
 }
