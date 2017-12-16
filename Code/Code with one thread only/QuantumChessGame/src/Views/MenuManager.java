@@ -14,20 +14,21 @@ public class MenuManager extends JFrame{
 
     CardLayout card;
     JPanel cardPanel;
-    
+
     MainMenu mainMenuObj = new MainMenu();
     CreditsMenu creditsMenuObj = new CreditsMenu();
     HelpMenu helpMenuObj = new HelpMenu();
+    playerNamesPanel playerNamesObj = new playerNamesPanel();
 
 
     final int FRAME_DIMENSION_WIDTH = 800;
     final int FRAME_DIMENSION_HEIGHT = 700;
 
     public MenuManager(){
-    this.initComponents();
-    this.setButtonListeners();
+        this.initComponents();
+        this.setButtonListeners();
     }
-    
+
     public void initComponents(){
         card = new CardLayout();
         cardPanel = new JPanel(card);
@@ -44,71 +45,95 @@ public class MenuManager extends JFrame{
         int y = (int) (((dimension.getHeight()) - this.getHeight()) / 2 );
         this.setLocation(x, y);
 
-       this.setVisible(true);
-     
+        this.setVisible(true);
+
         //sets panels to switchable
         cardPanel.add(mainMenuObj.initComponents(),"Menu"); //-----
         cardPanel.add(creditsMenuObj.initComponents(),"Credits");   //-----
         cardPanel.add(helpMenuObj.initComponents(),"Help");   //-----
-        
+        cardPanel.add(playerNamesObj.initComponents(),"playerNames");
+
         this.add(cardPanel);
         this.setVisible(true);
         card.show(cardPanel,"Menu");
 
     }
-    
-    
+
+
     public void setButtonListeners() {
-    mls = (new MouseListener() {
-        @Override  
-        public void mouseClicked(MouseEvent e) {
+        mls = (new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
 
-            showFrame(e);   //send event to get source which button is clicked
+                showFrame(e);   //send event to get source which button is clicked
 
-        }
+            }
 
 
-        @Override
-        public void mousePressed(MouseEvent e) {
+            @Override
+            public void mousePressed(MouseEvent e) {
 
-        }
+            }
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
+            @Override
+            public void mouseReleased(MouseEvent e) {
 
-        }
+            }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
+            @Override
+            public void mouseEntered(MouseEvent e) {
 
-        }
+            }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
+            @Override
+            public void mouseExited(MouseEvent e) {
 
-        }
-    });
-    // initilaze listener to buttons
+            }
+        });
+        // initilaze listener to buttons
 
-   /* buttons should be only here. */
+        /* buttons should be only here. */
 
-    
-    mainMenuObj.aboutButton.addMouseListener(mls);
-    mainMenuObj.creditsButton.addMouseListener(mls);
-    creditsMenuObj.backButton1.addMouseListener(mls);
-    helpMenuObj.backButton2.addMouseListener(mls);
-    mainMenuObj.newGameButton.addMouseListener(mls);
 
-}
+        mainMenuObj.aboutButton.addMouseListener(mls);
+        mainMenuObj.creditsButton.addMouseListener(mls);
+        creditsMenuObj.backButton1.addMouseListener(mls);
+        helpMenuObj.backButton2.addMouseListener(mls);
+        mainMenuObj.newGameButton.addMouseListener(mls);
+        playerNamesObj.startBtn.addMouseListener(mls);
+        playerNamesObj.backButton3.addMouseListener(mls);
+
+    }
     public void showFrame(MouseEvent e) {
         JComponent selecetedButton = (JComponent) e.getSource();
         CardLayout card = (CardLayout)(cardPanel.getLayout());
 
-         if(selecetedButton == creditsMenuObj.backButton1)
+        if(selecetedButton == creditsMenuObj.backButton1)
         {
             card.show(cardPanel,"Menu");
 
+        }
+        else if(selecetedButton == playerNamesObj.backButton3)
+        {
+            card.show(cardPanel,"Menu");
+        }
+        else if(selecetedButton == playerNamesObj.startBtn)
+        {
+            playerNamesObj.player1Name = playerNamesObj.player1Input.getText();
+            playerNamesObj.player2Name = playerNamesObj.player2Input.getText();
+            System.out.println("Player1 Name: " +  playerNamesObj.player1Name);
+            System.out.println("Player2 Name: " + playerNamesObj.player2Name);
+
+            final QuantumChess quantumChess = new QuantumChess(640,640);
+            this.setVisible(false); // now menu gone :D
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    quantumChess.create();
+                }
+
+            });
         }
         else  if(selecetedButton == helpMenuObj.backButton2)
         {
@@ -125,6 +150,7 @@ public class MenuManager extends JFrame{
             /*
             if we cannot fix panel problem we can do this.
              */
+            /*
             final QuantumChess quantumChess = new QuantumChess(640,640);
             this.setVisible(false); // now menu gone :D
             SwingUtilities.invokeLater(new Runnable() {
@@ -133,7 +159,8 @@ public class MenuManager extends JFrame{
                     quantumChess.create();
                 }
 
-            });
+            });*/
+            card.show(cardPanel,"playerNames");
 
         }
         else if(selecetedButton == mainMenuObj.aboutButton)
@@ -142,8 +169,8 @@ public class MenuManager extends JFrame{
 
         }
 
-    
-    } 
+
+    }
 
     public static void main(String[] args) {
 
