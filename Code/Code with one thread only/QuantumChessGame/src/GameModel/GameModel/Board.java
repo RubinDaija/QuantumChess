@@ -24,9 +24,9 @@ public class Board extends Canvas implements ActionListener {
     private int unitX; //the width of a single unit square
     private int unitY; //the height of a single unit square
 
-    private static volatile int cordXOfMouseClick = -1; //the x coordinate [0-7]
-    private static volatile int cordYOfMouseClick = -1;  //the y coordinate [0-7]
-    private static volatile boolean mouseHasClicked = false; //if the area where there was a click is selected or de-selected
+    private static int cordXOfMouseClick = -1; //the x coordinate [0-7]
+    private static int cordYOfMouseClick = -1;  //the y coordinate [0-7]
+    private static boolean mouseHasClicked = false; //if the area where there was a click is selected or de-selected
 
     private volatile MouseListenerBoard mouseListenerBoard; //move to the quantum chess part , to much concentrated on the board job
 
@@ -34,10 +34,15 @@ public class Board extends Canvas implements ActionListener {
 
     private volatile Piece[][] piecesOnBoard;
 
+    //these keep the coredinates of the piece selected and if it is selected
+    private int pieceSelx;
+    private int pieceSely;
+    private boolean pieceSel;
 
-    private volatile int pieceSelx;
-    private volatile int pieceSely;
-    private volatile boolean pieceSel;
+    //these keep the cordinates of the entangled piece selected and it is selected
+    private int entangledPieceSelx;
+    private int entangledPieceSely;
+    private boolean entangledPieceSel;
 
     public Board (int width, int height){
         this.width = width;
@@ -104,6 +109,7 @@ public class Board extends Canvas implements ActionListener {
         return bufferStrategy;      //the  return is just a precautions measure if we actually need it
     }
 
+    //Creates the colored square with the chosen color and loc
     private void renderSquareGraphic(Graphics g, int locX, int locY, Color color){ //draws the chess board squares
         g.setColor(color);
         g.fillRect((locX * unitX),(locY * unitY), unitX, unitY);
@@ -114,6 +120,7 @@ public class Board extends Canvas implements ActionListener {
         g.drawRect((locX * unitX),(locY * unitY), unitX, unitY);
     }
 
+    //draws the board with everything in it
     public void boardGraphics(){//does the rendering of the graphics
 
         do{
@@ -266,7 +273,7 @@ public class Board extends Canvas implements ActionListener {
                 return true;
             }
 
-        }else if( piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard) ) {
+        }else if( piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status) ) {
             System.out.println("MovePiece can take?");
             piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
             piecesOnBoard[x][y].updatePiecePos(x, y);

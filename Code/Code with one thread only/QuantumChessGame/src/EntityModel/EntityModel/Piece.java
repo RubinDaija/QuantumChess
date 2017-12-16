@@ -108,38 +108,40 @@ public abstract class Piece {
     /*
     Checks if there is a chance of taking a piece in valid positions. Same as valid pos just added isOpponent so piece can understand the way opponets.
      */
-    public  boolean canTake(int destinationX, int destinationY, Piece[][] piecesOnBoard){
+    public  boolean canTake(int destinationX, int destinationY, Piece[][] piecesOnBoard, Board.State state){
 
-        if (this.equals(Pawn.class)){}
-        else {}
+        if (state != Board.State.tunneling) {
+            ///DO NOT FORGET TO DO THIS
+            if (this.equals(Pawn.class)) {
+            } else {
+            }
 
-        trueIterator = positions.iterator();
-        int  counter = 0;
-        if (positions.size() > 0) {
+            trueIterator = positions.iterator();
+            int counter = 0;
+            if (positions.size() > 0) {
 
-            Point tmp;
-            boolean furtherBlocked = false;
+                Point tmp;
+                boolean furtherBlocked = false;
 
-            do{
-                tmp = (Point) trueIterator.next();
+                do {
+                    tmp = (Point) trueIterator.next();
 
-                if (tmp == null) {
-                    furtherBlocked = false;
-                    counter = 0;
-                }
-                else{
-                    if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null && !piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this)) {
-                        furtherBlocked = true;
+                    if (tmp == null) {
+                        furtherBlocked = false;
+                        counter = 0;
+                    } else {
+                        if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null && !piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this)) {
+                            furtherBlocked = true;
+                        } else if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null && piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this) && (!furtherBlocked)) {
+                            counter++;
+                        }
                     }
-                    else if (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null && piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this) && (!furtherBlocked)) {
-                        counter++;
+                    if (tmp != null && (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())] != null && (destinationX == tmp.getX()) && (destinationY == tmp.getY()) && !furtherBlocked && piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this)) && (counter == 1)) {
+                        return true;
                     }
-                }
-                if (tmp != null && (piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())]  != null &&(destinationX == tmp.getX()) && (destinationY == tmp.getY()) && !furtherBlocked && piecesOnBoard[((int) tmp.getX())][((int) tmp.getY())].isOpponent(this)) && (counter == 1) ) {
-                    return true;
-                }
-            }while (trueIterator.hasNext());
-            //trueIterator = positions.iterator();
+                } while (trueIterator.hasNext());
+                //trueIterator = positions.iterator();
+            }
         }
 
 
