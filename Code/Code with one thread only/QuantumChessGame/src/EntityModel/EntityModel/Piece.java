@@ -112,8 +112,31 @@ public abstract class Piece {
 
         if (state != Board.State.tunneling) {
             ///DO NOT FORGET TO DO THIS
-            if (this.equals(Pawn.class)) {
-            } else {
+            if (this.getClass() == Pawn.class) {
+
+                if ((player == 1) && (posY <= 6)){
+                    if(((destinationX == posX-1)&&(destinationY == posY - 1))|| ((destinationX == posX+1)&&(destinationY == posY - 1))) {
+                        if (this.isOpponent(piecesOnBoard[destinationX][destinationY])){
+                           return true;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else if((player == 2) && (posY >= 1)){
+                    if(((destinationX == posX-1)&&(destinationY == posY + 1))|| ((destinationX == posX+1)&&(destinationY == posY + 1))) {
+                        if (this.isOpponent(piecesOnBoard[destinationX][destinationY])){
+                            return true;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else{
+                    return false;
+                }
             }
 
             trueIterator = positions.iterator();
@@ -272,5 +295,7 @@ public abstract class Piece {
         return (piece != null) && (this.color != piece.color);
     }
 
-
+    public int getPlayer(){
+        return player;
+    }
 }

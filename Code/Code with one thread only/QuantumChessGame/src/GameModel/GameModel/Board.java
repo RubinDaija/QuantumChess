@@ -34,6 +34,8 @@ public class Board extends Canvas implements ActionListener {
 
     private volatile Piece[][] piecesOnBoard;
 
+    int turn = 1; //represents who's turn it is
+
     //these keep the coredinates of the piece selected and if it is selected
     private int pieceSelx;
     private int pieceSely;
@@ -156,7 +158,9 @@ public class Board extends Canvas implements ActionListener {
                                 if (piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()] != null) {
                                     if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered == 0) && (status != State.tunneling)) {
                                         opponentsEncountered++;
-                                        renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.RED);
+                                        if(piecesOnBoard[pieceSelx][pieceSely].getClass() != Pawn.class) {
+                                            renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.RED);
+                                        }
 //                                    } else if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered <= 1) && (status == State.tunneling) && passPiece) {
 //                                        opponentsEncountered++;
 //                                        renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.RED);
@@ -189,7 +193,27 @@ public class Board extends Canvas implements ActionListener {
                             }
 
                     }
-
+                    //This if is to show the red squares for the paws, To graphically show if the pawn can take a piece or not
+                    if (pieceSel &&( piecesOnBoard[pieceSelx][pieceSely].getClass() == Pawn.class )&& !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
+                        int tmpPosX = piecesOnBoard[pieceSelx][pieceSely].getPosx();
+                        int tmpPosy = piecesOnBoard[pieceSelx][pieceSely].getPosY();
+                        if ((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) && ( piecesOnBoard[pieceSelx][pieceSely].getPosY()<= 6)){
+                           if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy-1])) ) {//check if you can draw the right red square
+                               renderSquareGraphic(g, tmpPosX + 1, tmpPosy - 1, Color.RED);
+                            }
+                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() > 0)&&(piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy-1]))){ //check if you can draw the left red square
+                                renderSquareGraphic(g, tmpPosX - 1, tmpPosy - 1, Color.RED);
+                            }
+                        }
+                        else if((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 2) && (piecesOnBoard[pieceSelx][pieceSely].getPosY() >= 1)) {
+                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy+1]))) {//check if you can draw the left red square
+                                renderSquareGraphic(g, tmpPosX - 1, tmpPosy + 1, Color.RED);
+                            }
+                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() > 0) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy+1]))){ //check if you can draw the right red square
+                                renderSquareGraphic(g, tmpPosX + 1, tmpPosy + 1, Color.RED);
+                            }
+                        }
+                    }
 
                     for (int y = 0 ; y < 8; y++) {
                         for (int x = 0; x < 8; x++) {
