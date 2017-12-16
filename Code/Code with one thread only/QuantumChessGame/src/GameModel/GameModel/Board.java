@@ -93,9 +93,11 @@ public class Board extends Canvas implements ActionListener {
                     cordYOfMouseClick = e.getY() / unitY;
                     print("Cordx.sys: " + cordXOfMouseClick + " Cordy.sys: " + cordYOfMouseClick);
                 }
+                /* here it gives an null pointerexception when you try to swap pawn*/
                 if ((piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)&& pieceSel&&(!piecesOnBoard[pieceSelx][pieceSely].isSupperPos())&&!entangledPieceSel && (status != State.entangled) && (!piecesOnBoard[pieceSelx][pieceSely].canTake(cordXOfMouseClick,cordYOfMouseClick,piecesOnBoard,status))&&(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() != turn)){
                     pieceSel = false;
                 }
+                /* this if also gives nullPtr exception when you try to swap pawn.*/
                 if (pieceSel && (status != State.entangled)) {
                     movePiece(cordXOfMouseClick, cordYOfMouseClick);
 //                    pieceSel = false;
@@ -515,18 +517,16 @@ public class Board extends Canvas implements ActionListener {
         else if ("Swap".equals(e.getActionCommand())){
             //JFrame pieceSelection = new JFrame("Select a piece to evolve pawn");
             SwapSelection swp = new SwapSelection();
+
+            while(swp.isActive()){}
+
             String selection = swp.selection;
             if ((pieceSely== 0 |pieceSely == 7) && (piecesOnBoard[pieceSelx][pieceSely].getClass().equals(Pawn.class))){
                 Piece oldPawn = piecesOnBoard[pieceSelx][pieceSely];
                 piecesOnBoard[pieceSelx][pieceSely] = null;
-                if (oldPawn.getColor().equals(Color.BLACK)){
-                    piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/black_"+selection+"_full.png","piece_pictures/black_"+ selection +"_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
-                }
-                else{
-                    piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/white"+selection+"_full.png","piece_pictures/white_"+selection+"_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
-                }
+                piecesOnBoard[pieceSelx][pieceSely]=   returnSelectedSwap(swp.selection,oldPawn.getColor(),pieceSelx,pieceSely,oldPawn.getPlayer());
             }
-            //pieceSelection.dispose();
+
         }
         boardGraphics();
     }
@@ -560,5 +560,41 @@ public class Board extends Canvas implements ActionListener {
 
     public void changeTurn(){
         turn = (turn%2) + 1;
+    }
+    private Piece returnSelectedSwap(String selection,Color color,int x,int y,int player){
+        Piece retObject = null;
+        if (color.equals(Color.BLACK)){
+            switch (selection){
+                case "rook":
+                    retObject= new Rook(x,y,"piece_pictures/black_rook_full.png","piece_pictures/black_rook_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+                case "bishop":
+                    retObject= new Bishop(x,y,"piece_pictures/black_bishop_full.png","piece_pictures/black_bishop_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+                case "queen":
+                    retObject= new Queen(x,y,"piece_pictures/black_queen_full.png","piece_pictures/black_queen_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+                case "knight":
+                    retObject= new Knight(x,y,"piece_pictures/black_knight_full.png","piece_pictures/black_knight_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+            }
+        }
+        else{
+            switch (selection){
+                case "rook":
+                    retObject= new Rook(x,y,"piece_pictures/white_rook_full.png","piece_pictures/white_rook_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+                case "bishop":
+                    retObject= new Bishop(x,y,"piece_pictures/white_bishop_full.png","piece_pictures/white_bishop_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+                case "queen":
+                    retObject= new Queen(x,y,"piece_pictures/white_knight_full.png","piece_pictures/white_queen_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+                case "knight":
+                    retObject= new Knight(x,y,"piece_pictures/white_knight_full.png","piece_pictures/white_knight_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+            }
+        }
+        return retObject;
     }
 }

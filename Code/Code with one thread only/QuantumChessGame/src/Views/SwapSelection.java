@@ -9,9 +9,9 @@ import java.awt.event.MouseListener;
 
 public class SwapSelection extends JFrame {
 
-    public String selection;
+    public String selection = "Knight";
     private JButton btQueen;
-    private JButton btKing;
+    private JButton btKnight;
     private JButton btRook;
     private JButton btBishop;
     JPanel buttons;
@@ -22,13 +22,13 @@ public class SwapSelection extends JFrame {
 
     public void initComponents(){
         btQueen = new JButton("Queen");
-        btKing = new JButton("King");
+        btKnight = new JButton("Knight");
         btRook = new JButton("Rook");
         btBishop = new JButton("Bishop");
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(300,200));
         buttons.add(btBishop);
-        buttons.add(btKing);
+        buttons.add(btKnight);
         buttons.add(btQueen);
         buttons.add(btRook);
 
@@ -53,8 +53,8 @@ public class SwapSelection extends JFrame {
                     selection = "bishop";
                     showSurePopup(selection);
                 }
-                else if (e.getSource() == btKing){
-                    selection = "king";
+                else if (e.getSource() == btKnight){
+                    selection = "knight";
                     showSurePopup(selection);
                 }
                 else if (e.getSource() == btRook){
@@ -89,14 +89,14 @@ public class SwapSelection extends JFrame {
         btQueen.addMouseListener(mls);
         btBishop.addMouseListener(mls);
         btRook.addMouseListener(mls);
-        btKing.addMouseListener(mls);
+        btKnight.addMouseListener(mls);
     }
-    public void showSurePopup(String selection){
+    public void showSurePopup(String _selection){
         Object[] options = {"Yes,sure",
                 "Cancel"};
         int n = JOptionPane.showOptionDialog(this,
                 "Swap pawn  "
-                        + "with" + selection+"?",
+                        + "with" + _selection+"?",
                 "Selection Sure?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -106,6 +106,7 @@ public class SwapSelection extends JFrame {
 
             if(n == 0){
                 this.dispose();
+                this.selection = _selection;
             }
 
     }
