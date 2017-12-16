@@ -41,6 +41,8 @@ public class Board extends Canvas implements ActionListener {
     private int pieceSely;
     private boolean pieceSel;
 
+    Player player1,player2;
+
     //these keep the cordinates of the entangled piece selected and it is selected
     private int entangledPieceSelx;
     private int entangledPieceSely;
@@ -64,6 +66,10 @@ public class Board extends Canvas implements ActionListener {
         createBoardPieces();
 
         status = State.none;
+
+        /* prototype pattern can be implemented maybe?*/
+        player1 = new Player("AAAA",1);
+        player2 = new Player("BBBB",2);
     }
 
     public void create(){  //create the  initial canvas
@@ -299,6 +305,8 @@ public class Board extends Canvas implements ActionListener {
 
         }else if( piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status) ) {
             System.out.println("MovePiece can take?");
+            Piece taken = piecesOnBoard[x][y];
+            player1.insertPieceTaken(taken);    //for just player1 need to handle with gameTurn
             piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
             piecesOnBoard[x][y].updatePiecePos(x, y);
             piecesOnBoard[pieceSelx][pieceSely] = null;
@@ -306,6 +314,8 @@ public class Board extends Canvas implements ActionListener {
             pieceSel = false;
             status= State.none;
             boardGraphics();
+            player1.getPiecesTaken(); //for just player1 need to handle with gameTurn
+            //player1.getPiecesPicturesTaken(); it will be uncommented when inside of method is done.
             return true;
         }else {
             print("the movement is not allowed on that place");
