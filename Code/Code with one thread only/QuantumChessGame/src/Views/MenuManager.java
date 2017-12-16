@@ -152,6 +152,9 @@ public class MenuManager extends JFrame{
             public void run() {
 
                 new MenuManager();
+                Color grn = Color.GREEN;
+                grn.getTransparency();
+                System.out.println(grn.getRGB());
             }
         };
         SwingUtilities.invokeLater(r);

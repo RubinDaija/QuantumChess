@@ -19,6 +19,10 @@ public class Board extends Canvas implements ActionListener {
     State status;
     private Color white = new Color(255,250,204); //very light brown color
     private Color black = new Color (153,76,0); // dark brown color
+    private Color green = new Color(102, 255, 51,150); //green?
+    private Color red = new Color(250, 0, 0,150);
+    private Color blue =  new Color(0, 0, 250,150);
+    private Color yellow = new Color(255,255,0,150);
 
     private int width;  //width of the  canvas
     private int height; //height of the canvas
@@ -162,7 +166,7 @@ public class Board extends Canvas implements ActionListener {
                     for (int y = 0 ; y < 8; y++){
                         for (int x = 0; x < 8; x++){
                             if ((y == cordYOfMouseClick && x == cordXOfMouseClick) && mouseHasClicked){
-                                renderSquareGraphic(g,x,y,Color.YELLOW);
+                                renderSquareGraphic(g,x,y,yellow);
                             }
                             else if (y  % 2 == 0) {
                                     if (x % 2 == 0) {
@@ -195,7 +199,7 @@ public class Board extends Canvas implements ActionListener {
                                     if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered == 0) && (status != State.tunneling)) {
                                         opponentsEncountered++;
                                         if((!entangledPieceSel ) && (status != State.entangled) && (piecesOnBoard[pieceSelx][pieceSely].getClass() != Pawn.class)) {
-                                            renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.RED);
+                                            renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), red);
                                         }
 //                                    } else if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered <= 1) && (status == State.tunneling) && passPiece) {
 //                                        opponentsEncountered++;
@@ -217,7 +221,8 @@ public class Board extends Canvas implements ActionListener {
                                     }
 
                                 } else if(passPiece <= 1) {
-                                    renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.GREEN);
+
+                                    renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), green);
 
                                 }
                             }
@@ -235,33 +240,33 @@ public class Board extends Canvas implements ActionListener {
                         int tmpPosy = piecesOnBoard[pieceSelx][pieceSely].getPosY();
                         if ((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) && ( tmpPosy<= 6) && (tmpPosy >= 1)){
                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy-1])) ) {//check if you can draw the right red square
-                               renderSquareGraphic(g, tmpPosX + 1, tmpPosy - 1, Color.RED);
+                               renderSquareGraphic(g, tmpPosX + 1, tmpPosy - 1, red);
                             }
                             if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() > 0)&&(piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy-1]))){ //check if you can draw the left red square
-                                renderSquareGraphic(g, tmpPosX - 1, tmpPosy - 1, Color.RED);
+                                renderSquareGraphic(g, tmpPosX - 1, tmpPosy - 1, red);
                             }
                         }
                         else if((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 2) && (tmpPosy >= 1) && ( tmpPosy<= 6) ) {
                             if ((piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].getPosx() > 0)){
                                 if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy+1]))){
-                                    renderSquareGraphic(g, tmpPosX - 1, tmpPosy + 1, Color.RED);
+                                    renderSquareGraphic(g, tmpPosX - 1, tmpPosy + 1, red);
                                 }
                                 if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy+1]))){
-                                    renderSquareGraphic(g, tmpPosX + 1, tmpPosy + 1, Color.RED);
+                                    renderSquareGraphic(g, tmpPosX + 1, tmpPosy + 1, red);
                                 }
                             }
                             else if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() == 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy+1]))) {//check if you can draw the left red square
-                                renderSquareGraphic(g, tmpPosX - 1, tmpPosy + 1, Color.RED);
+                                renderSquareGraphic(g, tmpPosX - 1, tmpPosy + 1, red);
                             }
                             else if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() == 0) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy+1]))){ //check if you can draw the right red square
-                                renderSquareGraphic(g, tmpPosX + 1, tmpPosy + 1, Color.RED);
+                                renderSquareGraphic(g, tmpPosX + 1, tmpPosy + 1, red);
                             }
                         }
                     }
                     //This draws entanglements for the selected pieces
                     if(entangledPieceSel){
-                        renderSquareGraphic(g, entangledPieceSelx, entangledPieceSely, Color.BLUE);
-                        renderSquareGraphic(g, pieceSelx, pieceSely, Color.BLUE);
+                        renderSquareGraphic(g, entangledPieceSelx, entangledPieceSely, blue);
+                        renderSquareGraphic(g, pieceSelx, pieceSely, blue);
                     }
                     //this draws the pieces
                     for (int y = 0 ; y < 8; y++) {
