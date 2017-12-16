@@ -8,6 +8,7 @@ public class HelpMenu extends JPanel {
     JButton backButton2;
     JPanel  aboutPanel;
 
+
     
     public JPanel initComponents()
     {
