@@ -5,9 +5,11 @@ import GameModel.SideButtons;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.awt.image.BufferStrategy;
 
-public class QuantumChess extends JFrame implements Runnable{
+public class QuantumChess extends JFrame implements Runnable,WindowStateListener{
 
     private volatile  boolean running;
     private Thread thread;
@@ -22,6 +24,9 @@ public class QuantumChess extends JFrame implements Runnable{
         board = new Board(width, height);
 
         buttons = new SideButtons(190,height,board);//side buttons
+        board.getButtonClass(buttons);
+
+
     }
 
     public void create(){
@@ -61,5 +66,8 @@ public class QuantumChess extends JFrame implements Runnable{
         System.exit(0);
     }
 
-
+    @Override
+    public void windowStateChanged(WindowEvent e) {
+        board.boardGraphics();
+    }
 }

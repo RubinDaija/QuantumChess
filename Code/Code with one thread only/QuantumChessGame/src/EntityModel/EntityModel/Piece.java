@@ -62,7 +62,7 @@ public abstract class Piece {
         posY = copy.posY;
         fullImage = copy.getFullImage();
         superPosImage = copy.getSuperPosImage();
-        player = 1;
+        this.player = player;
         positions =new ArrayList<Point>();
         iterator = 0;
     }

@@ -41,7 +41,7 @@ public class Board extends Canvas implements ActionListener {
     private int pieceSelx;
     private int pieceSely;
     private boolean pieceSel;
-
+    private SideButtons buttons;
     Player player1,player2;
 
     //these keep the cordinates of the entangled piece selected and it is selected
@@ -81,7 +81,7 @@ public class Board extends Canvas implements ActionListener {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                buttons.disableEverything();
                 if (((cordXOfMouseClick == (e.getX() / unitX)) && (cordYOfMouseClick == (e.getY() / unitY)))) {
                     mouseHasClicked = !mouseHasClicked;
                 } else {
@@ -119,6 +119,10 @@ public class Board extends Canvas implements ActionListener {
         });
     }
 
+    public void getButtonClass(SideButtons b){
+        buttons = b;
+    }
+
     public BufferStrategy setBufferStrategy(){ //create the buffer startegy
         createBufferStrategy(2);
         bufferStrategy = getBufferStrategy();
@@ -138,7 +142,7 @@ public class Board extends Canvas implements ActionListener {
 
     //draws the board with everything in it
     public void boardGraphics(){//does the rendering of the graphics
-
+        buttons.disableEverything();
         do{
             do{
                 Graphics g = null;
@@ -160,6 +164,14 @@ public class Board extends Canvas implements ActionListener {
                                     renderSquareGraphic(g, x, y, black);
                                 }
                             }
+                        }
+                    }
+                    if(pieceSel && (piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)){
+                        if (piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() == 1){
+                            buttons.update(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick],player1.getEntanglement(), player1.getTunneling(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSuperPosAllowed(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSupperPos());
+                        }
+                        else{
+                            buttons.update(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick],player2.getEntanglement(), player2.getTunneling(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSuperPosAllowed(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSupperPos());
                         }
                     }
                     if (pieceSel &&  !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
@@ -299,7 +311,7 @@ public class Board extends Canvas implements ActionListener {
         if ((piecesOnBoard[x][y] == null) && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()  && (piecesOnBoard[pieceSelx][pieceSely]).validPos(x,y,piecesOnBoard,status) ) {
             System.out.println("Piece sel: " + pieceSel);
             System.out.println("Piece sel moving: " + ((pieceSelx != x) || (pieceSely != y)) + "\n" + "x: " + pieceSelx + "  y: " + pieceSely);
-            if (pieceSel && ((pieceSelx != x) || (pieceSely != y))) {
+            if (pieceSel && ((pieceSelx != x) || (pieceSely != y))) {//entanglement is happening
                 if (entangledPieceSel){
                     int tmpx = pieceSelx - x;
                     int tmpy = pieceSely - y;
@@ -319,6 +331,12 @@ public class Board extends Canvas implements ActionListener {
                         piecesOnBoard[tmpx][tmpy].updatePiecePos(tmpx, tmpy);
                         piecesOnBoard[entangledPieceSelx][entangledPieceSely] = null;
                         entangledPieceSel = false;
+                        if(piecesOnBoard[x][y].getPlayer() == 1){ //decrementing the entanglement on the player
+                            player1.decrementEntanglement();
+                        }
+                        else{
+                            player2.decrementEntanglement();
+                        }
                     }
                     else{
                         entangledPieceSel = false;
@@ -328,11 +346,20 @@ public class Board extends Canvas implements ActionListener {
                         boardGraphics();
                         return false;
                     }
+
                 }
                 else if (status != State.superpos) {
                     piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
                     piecesOnBoard[x][y].updatePiecePos(x, y);
                     piecesOnBoard[pieceSelx][pieceSely] = null;
+                    if(status == State.tunneling){ //decrementing when tunneling is used
+                        if(piecesOnBoard[x][y].getPlayer() == 1){
+                            player1.decrementTunneling();
+                        }
+                        else{
+                            player2.decrementTunneling();
+                        }
+                    }
                    // piecesOnBoard[pieceSelx][pieceSely] = null;
                 }
                 else{ //if superpos is selected this will be done
@@ -354,7 +381,7 @@ public class Board extends Canvas implements ActionListener {
                 return true;
             }
 
-        }else if(!entangledPieceSel && (piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status))) { //entangled pieces should not be able to take
+        }else if(!piecesOnBoard[pieceSelx][pieceSely].isDummy() && !entangledPieceSel && (piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status))) { //entangled pieces should not be able to take
             System.out.println("MovePiece can take?");
             Piece taken = piecesOnBoard[x][y];
             player1.insertPieceTaken(taken);    //for just player1 need to handle with gameTurn
@@ -420,6 +447,7 @@ public class Board extends Canvas implements ActionListener {
             print("SupperPositionActivated");
         }
         else if (("Observe".equals(e.getActionCommand()))&& pieceSel) {
+
             int tmp = collapse();
             print("The Collapse Function Resulted in " + tmp);
             if(tmp == 1){
@@ -495,7 +523,7 @@ public class Board extends Canvas implements ActionListener {
     }
 
     private int collapse(){
-        return (int)(Math.random() + 0.49);
+        return (int)(Math.random() + 0.4321);
     }
 
     //deep copies the piece however it supposes it is the piece  of the other player
