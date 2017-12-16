@@ -543,72 +543,73 @@ public class Board extends Canvas implements ActionListener {
             }
             System.exit(0);
         }
-        else if ("Swap".equals(e.getActionCommand())){
-
-            ArrayList<Piece> tmpList ;
-            //JFrame pieceSelection = new JFrame("Select a piece to evolve pawn");
-            if(piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) {
-                tmpList = player1.getPiecesTaken();
-            }else{
-                tmpList = player2.getPiecesTaken();
+        else if ("Swap".equals(e.getActionCommand())) {
+            Player tmpPlayer;
+            if (piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) {
+                tmpPlayer = player1;
+            } else {
+                tmpPlayer = player2;
             }
-            int selection = -2;
+            if (tmpPlayer.getNumberOfPieces() > 0) {
+                ArrayList<Piece> tmpList;
+                tmpList = tmpPlayer.getPiecesTaken();
+                //JFrame pieceSelection = new JFrame("Select a piece to evolve pawn");
 
-            ArrayList<String> optionsA = new ArrayList<String>();
-            int locQueen = 0,locKnight = 0,locRook = 0,locBishop = 0;
+                int selection = -2;
 
-            for (int i =0; i < tmpList.size(); i++){
-                if((tmpList.get(i).getClass() == Queen.class) && !optionsA.contains("Queen")){
-                    locQueen = i;
-                    optionsA.add("Queen");
-                }
-                else if((tmpList.get(i).getClass() == Knight.class)&& !optionsA.contains("Knight")){
-                    locKnight =  i;
-                    optionsA.add("Knight");
-                }
-                else if((tmpList.get(i).getClass() == Rook.class)&&(!optionsA.contains("Rook"))){
-                    locRook = i;
-                    optionsA.add("Rook");
-                }
-                else if((tmpList.get(i).getClass() == Bishop.class)&&(!optionsA.contains("Bishop"))){
-                    optionsA.add("Bishop");
-                    locBishop = i;
-                }
-            }
-
-            Object[] options = optionsA.toArray();
-            int n = JOptionPane.showOptionDialog(null,
-                    "What piece do you want to chose?",
-                    "Chose a piece",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[optionsA.size() -1]);
-
-            if(optionsA.get(n).equals("Queen")){
-                selection = locQueen;
-            }
-            else if(optionsA.get(n).equals("Knight")){
-                selection = locKnight;
-            }
-            else if(optionsA.get(n).equals("Rook")){
-                selection = locRook;
-            }
-            else if(optionsA.get(n).equals("Bishop")){
-                selection = locBishop;
-            }
-
-            if(selection >= 0){
-                if(piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) {
-                    piecesOnBoard[pieceSelx][pieceSely] = player1.getPiecesTaken().get(selection);
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
-                }else{
-                    piecesOnBoard[pieceSelx][pieceSely] = player2.getPiecesTaken().get(selection);
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
+                ArrayList<String> optionsA = new ArrayList<String>();
+                int locQueen = 0, locKnight = 0, locRook = 0, locBishop = 0;
+                //gets all the pieces that have been taken but only one of them
+                for (int i = 0; i < tmpList.size(); i++) {
+                    if ((tmpList.get(i).getClass() == Queen.class) && !optionsA.contains("Queen")) {
+                        locQueen = i;
+                        optionsA.add("Queen");
+                    } else if ((tmpList.get(i).getClass() == Knight.class) && !optionsA.contains("Knight")) {
+                        locKnight = i;
+                        optionsA.add("Knight");
+                    } else if ((tmpList.get(i).getClass() == Rook.class) && (!optionsA.contains("Rook"))) {
+                        locRook = i;
+                        optionsA.add("Rook");
+                    } else if ((tmpList.get(i).getClass() == Bishop.class) && (!optionsA.contains("Bishop"))) {
+                        optionsA.add("Bishop");
+                        locBishop = i;
+                    }
                 }
 
-            }
+                Object[] options = optionsA.toArray();
+                int n = JOptionPane.showOptionDialog(null,
+                        "What piece do you want to chose?",
+                        "Chose a piece",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[optionsA.size() - 1]);
+
+                if (n >= 0) {
+                    if (optionsA.get(n).equals("Queen")) {
+                        selection = locQueen;
+                    } else if (optionsA.get(n).equals("Knight")) {
+                        selection = locKnight;
+                    } else if (optionsA.get(n).equals("Rook")) {
+                        selection = locRook;
+                    } else if (optionsA.get(n).equals("Bishop")) {
+                        selection = locBishop;
+                    }
+                } else {
+                    selection = n;
+                }
+
+                if (selection >= 0) {
+                    if (piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) {
+                        piecesOnBoard[pieceSelx][pieceSely] = player1.getPiecesTaken().get(selection);
+                        piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx, pieceSely);
+                    } else {
+                        piecesOnBoard[pieceSelx][pieceSely] = player2.getPiecesTaken().get(selection);
+                        piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx, pieceSely);
+                    }
+
+                }
 //            if ((pieceSely== 0 |pieceSely == 7) && (piecesOnBoard[pieceSelx][pieceSely].getClass().equals(Pawn.class))){
 //                Piece oldPawn = piecesOnBoard[pieceSelx][pieceSely];
 //                piecesOnBoard[pieceSelx][pieceSely] = null;
@@ -619,7 +620,8 @@ public class Board extends Canvas implements ActionListener {
 //                    piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/white"+selection+"_full.png","piece_pictures/white_"+selection+"_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
 //                }
 //            }
-            //pieceSelection.dispose();
+                //pieceSelection.dispose();
+            }
         }
         boardGraphics();
     }
