@@ -23,7 +23,7 @@ public class QuantumChess extends JFrame implements Runnable,WindowStateListener
         setLayout(new BorderLayout()); //for the buttons too
         board = new Board(width, height);
 
-        buttons = new SideButtons(190,height,board);//side buttons
+        buttons = new SideButtons(190,height/2,board);//side buttons
         board.getButtonClass(buttons);
 
 
