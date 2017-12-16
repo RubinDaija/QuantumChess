@@ -57,24 +57,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="511" column="0" lean-forward="false" selection-start-line="511" selection-start-column="0" selection-end-line="511" selection-end-column="0" />
+            <state relative-caret-position="326">
+              <caret line="521" column="168" lean-forward="false" selection-start-line="521" selection-start-column="168" selection-end-line="521" selection-end-column="168" />
               <folding>
-                <element signature="e#29672#29673#0" expanded="true" />
-                <element signature="e#29707#29708#0" expanded="true" />
+                <element signature="e#29827#29828#0" expanded="true" />
+                <element signature="e#29862#29863#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SwapSelection.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SwapSelection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Views/SwapSelection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="115" column="31" lean-forward="false" selection-start-line="115" selection-start-column="31" selection-end-line="115" selection-end-column="31" />
+            <state relative-caret-position="641">
+              <caret line="88" column="38" lean-forward="true" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#389#390#0" expanded="true" />
@@ -156,8 +156,8 @@
         <option value="$PROJECT_DIR$/src/EntityModel/EntityModel/Piece.java" />
         <option value="$PROJECT_DIR$/src/Views/HelpMenu.java" />
         <option value="$PROJECT_DIR$/src/Views/SwapSelection.form" />
-        <option value="$PROJECT_DIR$/src/GameModel/GameModel/Board.java" />
         <option value="$PROJECT_DIR$/src/Views/SwapSelection.java" />
+        <option value="$PROJECT_DIR$/src/GameModel/GameModel/Board.java" />
       </list>
     </option>
   </component>
@@ -466,7 +466,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47857000" />
+    <option name="totallyTimeSpent" value="48107000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -674,25 +674,25 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Views/SwapSelection.form" />
-    <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="511" column="0" lean-forward="false" selection-start-line="511" selection-start-column="0" selection-end-line="511" selection-end-column="0" />
-          <folding>
-            <element signature="e#29672#29673#0" expanded="true" />
-            <element signature="e#29707#29708#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Views/SwapSelection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="115" column="31" lean-forward="false" selection-start-line="115" selection-start-column="31" selection-end-line="115" selection-end-column="31" />
+        <state relative-caret-position="641">
+          <caret line="88" column="38" lean-forward="true" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#389#390#0" expanded="true" />
             <element signature="e#421#422#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="521" column="168" lean-forward="false" selection-start-line="521" selection-start-column="168" selection-end-line="521" selection-end-column="168" />
+          <folding>
+            <element signature="e#29827#29828#0" expanded="true" />
+            <element signature="e#29862#29863#0" expanded="true" />
           </folding>
         </state>
       </provider>
