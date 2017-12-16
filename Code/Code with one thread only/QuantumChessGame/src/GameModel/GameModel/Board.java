@@ -3,6 +3,7 @@ package GameModel;
 
 import EntityModel.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -474,7 +475,22 @@ public class Board extends Canvas implements ActionListener {
         }
         else if ("Swap".equals(e.getActionCommand())){
 
+            if ((pieceSely== 0 |pieceSely == 7) && (piecesOnBoard[pieceSelx][pieceSely].getClass().equals(Pawn.class))){
+                Piece oldPawn = piecesOnBoard[pieceSelx][pieceSely];
+                piecesOnBoard[pieceSelx][pieceSely] = null;
+                if (oldPawn.getColor().equals(Color.BLACK)){
+                    piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/black_bishop_full.png","piece_pictures/black_bishop_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
+                }
+                else{
+
+                }
+
+
+
+            }
+            
         }
+
         boardGraphics();
     }
 

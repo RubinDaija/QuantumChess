@@ -36,6 +36,7 @@ public class SideButtons extends JPanel{
         add(observe);
         add(surrender);
         add(swap);
+        this.setVisible(true);
     }
 
     @Override
