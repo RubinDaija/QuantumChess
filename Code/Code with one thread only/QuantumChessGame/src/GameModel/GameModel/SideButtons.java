@@ -15,6 +15,10 @@ public class SideButtons extends JPanel{
     JButton observe;
     JButton surrender;
     JButton swap;
+    JPanel buttons = new JPanel();
+    private JPanel turnPlayer = new JPanel(new BorderLayout());
+    private JLabel turnInfo = new JLabel("AAAAAAAAAAAAAAAAAAA");
+
 
     public SideButtons(int widht, int height, Board board){
         supperpos = new JButton("SupperPosition");
@@ -31,16 +35,20 @@ public class SideButtons extends JPanel{
         surrender.addActionListener(board);
         swap.addActionListener(board);
 
-        setPreferredSize(new Dimension(widht,height));
-        setBackground(Color.white);
-        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-        add(supperpos);
-        add(entanglement);
-        add(tunneling);
-        add(observe);
-        add(surrender);
-        add(swap);
-
+        buttons.setPreferredSize(new Dimension(widht,height));
+        buttons.setBackground(Color.white);
+        buttons.setLayout(new BoxLayout(buttons,BoxLayout.Y_AXIS));
+        buttons.add(supperpos);
+        buttons.add(entanglement);
+        buttons.add(tunneling);
+        buttons.add(observe);
+        buttons.add(surrender);
+        buttons.add(swap);
+        turnInfo.setText("AAAAA");
+        turnPlayer.add(turnInfo,BorderLayout.CENTER);
+        setLayout(new BorderLayout());
+        add(buttons,BorderLayout.NORTH);
+        add(turnPlayer,BorderLayout.SOUTH);
         disableEverything();
     }
 
