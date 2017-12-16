@@ -2,6 +2,8 @@ package Views;
 
 
 
+import EntityModel.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -16,6 +18,8 @@ public class SwapSelection extends JFrame {
     private JButton btBishop;
     JPanel buttons;
     MouseListener mls;
+
+    Player one = new Player("Serhat",1);
     public SwapSelection(){
         initComponents();
     }
@@ -59,7 +63,7 @@ public class SwapSelection extends JFrame {
                 }
                 else if (e.getSource() == btRook){
                     selection = "rook";
-                    showSurePopup(selection);
+                    winnerPopup(one);
                 }
                 else {
                     selection = "nullSelection";
@@ -118,6 +122,14 @@ public class SwapSelection extends JFrame {
         String sp = swp.selection;
         JPanel asd = new JPanel();
         System.out.println(sp);
+    }
+    public void winnerPopup(Player player){
+
+        JOptionPane.showConfirmDialog(
+                this,player.getPlayerName() +" won the game","Congratz",JOptionPane.OK_CANCEL_OPTION
+        );
+
+
     }
 }
 

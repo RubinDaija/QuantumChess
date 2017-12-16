@@ -4,6 +4,7 @@ package GameModel;
 import EntityModel.*;
 import Views.SwapSelection;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -601,5 +602,11 @@ public class Board extends Canvas implements ActionListener {
             }
         }
         return retObject;
+    }
+    public void winnerPopup(Player player){
+        JOptionPane.showConfirmDialog(
+                this,player.getPlayerName() +" won the game","Congratz",JOptionPane.OK_CANCEL_OPTION
+        );
+
     }
 }
