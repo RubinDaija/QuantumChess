@@ -2,7 +2,7 @@ package GameModel;
 
 
 import EntityModel.*;
-
+import Views.SwapSelection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 
 
@@ -19,7 +18,6 @@ public class Board extends Canvas implements ActionListener {
 
     public enum State {superpos, tunneling, entangled, none};
     State status;
-
     private Color white = new Color(255,250,204); //very light brown color
     private Color black = new Color (153,76,0); // dark brown color
     private Color green = new Color(102, 255, 51,150); //green?
@@ -100,12 +98,14 @@ public class Board extends Canvas implements ActionListener {
                     cordYOfMouseClick = e.getY() / unitY;
                     print("Cordx.sys: " + cordXOfMouseClick + " Cordy.sys: " + cordYOfMouseClick);
                 }
+                /* here it gives an null pointerexception when you try to swap pawn*/
                 if ((piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)&& pieceSel&&(!piecesOnBoard[pieceSelx][pieceSely].isSupperPos())&&!entangledPieceSel && (status != State.entangled) && (!piecesOnBoard[pieceSelx][pieceSely].canTake(cordXOfMouseClick,cordYOfMouseClick,piecesOnBoard,status))&&(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() != turn)){
                     pieceSel = false;
                 }
+                /* this if also gives nullPtr exception when you try to swap pawn.*/
                 if (pieceSel && (status != State.entangled)) {
                     movePiece(cordXOfMouseClick, cordYOfMouseClick);
-//                    pieceSel = false;
+//                    pieceSel = false; ----
                 }
 
                 //checking if it is entangeling another piece
@@ -164,13 +164,10 @@ public class Board extends Canvas implements ActionListener {
                 try{
                     g = bufferStrategy.getDrawGraphics();
                     g.clearRect(0,0,width,height);
-                    if (pieceSel){ //Bug fix because when it was entagled it would remove the yellow mark selection just show green
-                        renderSquareGraphic(g,pieceSelx,pieceSely,yellow);
-                    }
                     for (int y = 0 ; y < 8; y++){
                         for (int x = 0; x < 8; x++){
                             if ((y == cordYOfMouseClick && x == cordXOfMouseClick) && mouseHasClicked){
-                                renderSquareGraphic(g,x,y,Color.yellow);
+                                renderSquareGraphic(g,x,y,yellow);
                             }
                             else if (y  % 2 == 0) {
                                     if (x % 2 == 0) {
@@ -225,6 +222,7 @@ public class Board extends Canvas implements ActionListener {
                                     }
 
                                 } else if(passPiece <= 1) {
+
                                     renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), green);
 
                                 }
@@ -403,22 +401,7 @@ public class Board extends Canvas implements ActionListener {
         }else if(!piecesOnBoard[pieceSelx][pieceSely].isDummy() && !entangledPieceSel && (piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status))) { //entangled pieces should not be able to take
             System.out.println("MovePiece can take?");
             Piece taken = piecesOnBoard[x][y];
-            if(taken.getClass() == King.class){// <+++++++++++++++++++++++HEre is a place for winner pop up
-                if(taken.getPlayer() == 1){
-                    winnerPopup(player2);
-                }
-                else {
-                    winnerPopup(player1);
-                }
-                System.exit(0);
-            }
-            if (piecesOnBoard[x][y].getPlayer() == 1){
-                player1.insertPieceTaken(taken);
-            }else{
-                player2.insertPieceTaken(taken);
-            }
-
-
+            player1.insertPieceTaken(taken);    //for just player1 need to handle with gameTurn
             piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
             piecesOnBoard[x][y].updatePiecePos(x, y);
             piecesOnBoard[pieceSelx][pieceSely] = null;
@@ -426,7 +409,7 @@ public class Board extends Canvas implements ActionListener {
             pieceSel = false;
             status= State.none;
             boardGraphics();
-//            player1.getPiecesTaken(); //for just player1 need to handle with gameTurn
+            player1.getPiecesTaken(); //for just player1 need to handle with gameTurn
             //player1.getPiecesPicturesTaken(); it will be uncommented when inside of method is done.
 
             changeTurn();
@@ -534,92 +517,22 @@ public class Board extends Canvas implements ActionListener {
         else if("Entanglement".equals(e.getActionCommand())){
             status = State.entangled;
         }
-        else if ("Surrender".equals(e.getActionCommand())){//<++++++++++++Here is the place to show the winner
-            if (piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1){
-                winnerPopup(player2);
-            }
-            else{
-                winnerPopup(player1);
-            }
-            System.exit(0);
+        else if ("Surrender".equals(e.getActionCommand())){
+
         }
         else if ("Swap".equals(e.getActionCommand())){
-
-            ArrayList<Piece> tmpList ;
             //JFrame pieceSelection = new JFrame("Select a piece to evolve pawn");
-            if(piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) {
-                tmpList = player1.getPiecesTaken();
-            }else{
-                tmpList = player2.getPiecesTaken();
-            }
-            int selection = -2;
+            SwapSelection swp = new SwapSelection();
 
-            ArrayList<String> optionsA = new ArrayList<String>();
-            int locQueen = 0,locKnight = 0,locRook = 0,locBishop = 0;
+            while(swp.isActive()){}
 
-            for (int i =0; i < tmpList.size(); i++){
-                if((tmpList.get(i).getClass() == Queen.class) && !optionsA.contains("Queen")){
-                    locQueen = i;
-                    optionsA.add("Queen");
-                }
-                else if((tmpList.get(i).getClass() == Knight.class)&& !optionsA.contains("Knight")){
-                    locKnight =  i;
-                    optionsA.add("Knight");
-                }
-                else if((tmpList.get(i).getClass() == Rook.class)&&(!optionsA.contains("Rook"))){
-                    locRook = i;
-                    optionsA.add("Rook");
-                }
-                else if((tmpList.get(i).getClass() == Bishop.class)&&(!optionsA.contains("Bishop"))){
-                    optionsA.add("Bishop");
-                    locBishop = i;
-                }
+            String selection = swp.selection;
+            if ((pieceSely== 0 |pieceSely == 7) && (piecesOnBoard[pieceSelx][pieceSely].getClass().equals(Pawn.class))){
+                Piece oldPawn = piecesOnBoard[pieceSelx][pieceSely];
+                piecesOnBoard[pieceSelx][pieceSely] = null;
+                piecesOnBoard[pieceSelx][pieceSely]=   returnSelectedSwap(swp.selection,oldPawn.getColor(),pieceSelx,pieceSely,oldPawn.getPlayer());
             }
 
-            Object[] options = optionsA.toArray();
-            int n = JOptionPane.showOptionDialog(null,
-                    "What piece do you want to chose?",
-                    "Chose a piece",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[optionsA.size() -1]);
-
-            if(optionsA.get(n).equals("Queen")){
-                selection = locQueen;
-            }
-            else if(optionsA.get(n).equals("Knight")){
-                selection = locKnight;
-            }
-            else if(optionsA.get(n).equals("Rook")){
-                selection = locRook;
-            }
-            else if(optionsA.get(n).equals("Bishop")){
-                selection = locBishop;
-            }
-
-            if(selection >= 0){
-                if(piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) {
-                    piecesOnBoard[pieceSelx][pieceSely] = player1.getPiecesTaken().get(selection);
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
-                }else{
-                    piecesOnBoard[pieceSelx][pieceSely] = player2.getPiecesTaken().get(selection);
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
-                }
-
-            }
-//            if ((pieceSely== 0 |pieceSely == 7) && (piecesOnBoard[pieceSelx][pieceSely].getClass().equals(Pawn.class))){
-//                Piece oldPawn = piecesOnBoard[pieceSelx][pieceSely];
-//                piecesOnBoard[pieceSelx][pieceSely] = null;
-//                if (oldPawn.getColor().equals(Color.BLACK)){
-//                    piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/black_"+selection+"_full.png","piece_pictures/black_"+ selection +"_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
-//                }
-//                else{
-//                    piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/white"+selection+"_full.png","piece_pictures/white_"+selection+"_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
-//                }
-//            }
-            //pieceSelection.dispose();
         }
         boardGraphics();
     }
@@ -654,7 +567,42 @@ public class Board extends Canvas implements ActionListener {
     public void changeTurn(){
         turn = (turn%2) + 1;
     }
-
+    private Piece returnSelectedSwap(String selection,Color color,int x,int y,int player){
+        Piece retObject = null;
+        if (color.equals(Color.BLACK)){
+            switch (selection){
+                case "rook":
+                    retObject= new Rook(x,y,"piece_pictures/black_rook_full.png","piece_pictures/black_rook_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+                case "bishop":
+                    retObject= new Bishop(x,y,"piece_pictures/black_bishop_full.png","piece_pictures/black_bishop_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+                case "queen":
+                    retObject= new Queen(x,y,"piece_pictures/black_queen_full.png","piece_pictures/black_queen_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+                case "knight":
+                    retObject= new Knight(x,y,"piece_pictures/black_knight_full.png","piece_pictures/black_knight_superpos.png",unitX,unitY,Color.BLACK,player);
+                    break;
+            }
+        }
+        else{
+            switch (selection){
+                case "rook":
+                    retObject= new Rook(x,y,"piece_pictures/white_rook_full.png","piece_pictures/white_rook_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+                case "bishop":
+                    retObject= new Bishop(x,y,"piece_pictures/white_bishop_full.png","piece_pictures/white_bishop_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+                case "queen":
+                    retObject= new Queen(x,y,"piece_pictures/white_knight_full.png","piece_pictures/white_queen_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+                case "knight":
+                    retObject= new Knight(x,y,"piece_pictures/white_knight_full.png","piece_pictures/white_knight_superpos.png",unitX,unitY,Color.WHITE,player);
+                    break;
+            }
+        }
+        return retObject;
+    }
     public void winnerPopup(Player player){
         JOptionPane.showConfirmDialog(
                 this,player.getPlayerName() +" won the game","Congratz",JOptionPane.OK_CANCEL_OPTION

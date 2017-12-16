@@ -33,13 +33,12 @@ public class Player {
         this.playerNo = playerNo;
     }
 
-    public ArrayList<Piece> getPiecesTaken() {
+    public void getPiecesTaken() {
         //you can just return the arraylist and then they can take the pictures from the arraylist  easier that way <<++NOTE
-//        for (Piece takenPiece: piecesTaken){
-//            // to see which piece is taken.
-//            System.out.println(takenPiece.getClass());
-//        }
-        return piecesTaken;
+        for (Piece takenPiece: piecesTaken){
+            // to see which piece is taken.
+            System.out.println(takenPiece.getClass());
+        }
     }
     //Kaan this would return taken pictures to right panel at the bottom of the buttons.
     public void getPiecesPicturesTaken() {
