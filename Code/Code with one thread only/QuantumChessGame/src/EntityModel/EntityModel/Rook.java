@@ -9,6 +9,10 @@ public class Rook extends Piece {
         calculatePossibleMoves();
     }
 
+    public Rook(Piece copy, int player){
+        super(copy,player);
+    }
+
     //@Override
     public void move(int x, int y) {
 

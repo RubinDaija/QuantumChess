@@ -8,6 +8,10 @@ public class Queen extends Piece {
         calculatePossibleMoves();
     }
 
+    public Queen(Piece copy, int player){
+        super(copy,player);
+    }
+
     //@Override
     public void move(int x, int y) {
 

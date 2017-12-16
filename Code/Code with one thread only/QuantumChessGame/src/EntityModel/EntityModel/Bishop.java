@@ -10,6 +10,10 @@ public class Bishop extends Piece {
             calculatePossibleMoves();
         }
 
+        public Bishop(Piece copy, int player){
+            super(copy,player);
+        }
+
        // @Override
         public void move(int x, int y) {
 

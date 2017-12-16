@@ -10,6 +10,10 @@ public class Knight extends Piece {
         calculatePossibleMoves();
     }
 
+    public Knight(Piece copy, int player){
+        super(copy,player);
+    }
+
     //@Override
     public void move(int x, int y) {
 

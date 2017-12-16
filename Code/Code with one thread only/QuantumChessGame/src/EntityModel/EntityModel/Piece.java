@@ -51,19 +51,19 @@ public abstract class Piece {
         moved = false;
     }
 
-//    public Piece(Piece copy){
-//        superPosAllowed = true;
-//        //taken = false;
-//        superPosBol = false;
-//        this.color = copy.color;
-//        posX = copy.posX;
-//        posY = copy.posY;
-//        fullImage = copy.getFullImage();
-//        superPosImage = copy.getSuperPosImage();
-//        player = copy.player;
-//        positions =new ArrayList<Point>();
-//        iterator = 0;
-//    }
+    public Piece(Piece copy,int player){
+        superPosAllowed = true;
+        //taken = false;
+        superPosBol = false;
+        this.color = copy.color;
+        posX = copy.posX;
+        posY = copy.posY;
+        fullImage = copy.getFullImage();
+        superPosImage = copy.getSuperPosImage();
+        player = 1;
+        positions =new ArrayList<Point>();
+        iterator = 0;
+    }
 
 
     //i used to create a dummy piece
@@ -110,8 +110,8 @@ public abstract class Piece {
      */
     public  boolean canTake(int destinationX, int destinationY, Piece[][] piecesOnBoard, Board.State state){
 
-        if (state != Board.State.tunneling) {
-            ///DO NOT FORGET TO DO THIS
+        if (state == Board.State.none) {
+
             if (this.getClass() == Pawn.class) {
 
                 if ((player == 1) && (posY <= 6)){

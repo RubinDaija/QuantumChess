@@ -80,20 +80,27 @@ public class Board extends Canvas implements ActionListener {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 if (((cordXOfMouseClick == (e.getX() / unitX)) && (cordYOfMouseClick == (e.getY() / unitY)))) {
                     mouseHasClicked = !mouseHasClicked;
-                }
-                else {
+                } else {
                     mouseHasClicked = true;
                     print("Cordx of click: " + e.getX() + "Cordy of click: " + e.getY());
                     cordXOfMouseClick = e.getX() / unitX;
                     cordYOfMouseClick = e.getY() / unitY;
                     print("Cordx.sys: " + cordXOfMouseClick + " Cordy.sys: " + cordYOfMouseClick);
                 }
-                if (pieceSel) {
+                if (pieceSel && (status != State.entangled)) {
                     movePiece(cordXOfMouseClick, cordYOfMouseClick);
 //                    pieceSel = false;
-                }else{
+                }
+                //checking if it is entangeling another piece
+                else if((status == State.entangled) && piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick])){
+                    entangledPieceSel = true;
+                    entangledPieceSelx = cordXOfMouseClick;
+                    entangledPieceSely = cordYOfMouseClick;
+                }
+                else {
                     selectAPiece(cordXOfMouseClick, cordYOfMouseClick);
                 }
                 status = State.none;
@@ -164,7 +171,7 @@ public class Board extends Canvas implements ActionListener {
                                 if (piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()] != null) {
                                     if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered == 0) && (status != State.tunneling)) {
                                         opponentsEncountered++;
-                                        if(piecesOnBoard[pieceSelx][pieceSely].getClass() != Pawn.class) {
+                                        if((!entangledPieceSel ) && (status != State.entangled) && (piecesOnBoard[pieceSelx][pieceSely].getClass() != Pawn.class)) {
                                             renderSquareGraphic(g, (int) tmp.getX(), (int) tmp.getY(), Color.RED);
                                         }
 //                                    } else if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[(int) tmp.getX()][(int) tmp.getY()])) && (opponentsEncountered <= 1) && (status == State.tunneling) && passPiece) {
@@ -200,10 +207,10 @@ public class Board extends Canvas implements ActionListener {
 
                     }
                     //This if is to show the red squares for the paws, To graphically show if the pawn can take a piece or not
-                    if (pieceSel &&( piecesOnBoard[pieceSelx][pieceSely].getClass() == Pawn.class )&& !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
+                    if (!entangledPieceSel && pieceSel &&( piecesOnBoard[pieceSelx][pieceSely].getClass() == Pawn.class )&& !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
                         int tmpPosX = piecesOnBoard[pieceSelx][pieceSely].getPosx();
                         int tmpPosy = piecesOnBoard[pieceSelx][pieceSely].getPosY();
-                        if ((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) && ( piecesOnBoard[pieceSelx][pieceSely].getPosY()<= 6)){
+                        if ((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) && ( tmpPosy<= 6) && (tmpPosy >= 1)){
                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy-1])) ) {//check if you can draw the right red square
                                renderSquareGraphic(g, tmpPosX + 1, tmpPosy - 1, Color.RED);
                             }
@@ -211,16 +218,29 @@ public class Board extends Canvas implements ActionListener {
                                 renderSquareGraphic(g, tmpPosX - 1, tmpPosy - 1, Color.RED);
                             }
                         }
-                        else if((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 2) && (piecesOnBoard[pieceSelx][pieceSely].getPosY() >= 1)) {
-                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy+1]))) {//check if you can draw the left red square
+                        else if((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 2) && (tmpPosy >= 1) && ( tmpPosy<= 6) ) {
+                            if ((piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].getPosx() > 0)){
+                                if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy+1]))){
+                                    renderSquareGraphic(g, tmpPosX - 1, tmpPosy + 1, Color.RED);
+                                }
+                                if ((piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy+1]))){
+                                    renderSquareGraphic(g, tmpPosX + 1, tmpPosy + 1, Color.RED);
+                                }
+                            }
+                            else if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() == 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy+1]))) {//check if you can draw the left red square
                                 renderSquareGraphic(g, tmpPosX - 1, tmpPosy + 1, Color.RED);
                             }
-                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() > 0) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy+1]))){ //check if you can draw the right red square
+                            else if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() == 0) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy+1]))){ //check if you can draw the right red square
                                 renderSquareGraphic(g, tmpPosX + 1, tmpPosy + 1, Color.RED);
                             }
                         }
                     }
-
+                    //This draws entanglements for the selected pieces
+                    if(entangledPieceSel){
+                        renderSquareGraphic(g, entangledPieceSelx, entangledPieceSely, Color.BLUE);
+                        renderSquareGraphic(g, pieceSelx, pieceSely, Color.BLUE);
+                    }
+                    //this draws the pieces
                     for (int y = 0 ; y < 8; y++) {
                         for (int x = 0; x < 8; x++) {
                             if (piecesOnBoard[x][y] != null) {
@@ -279,7 +299,36 @@ public class Board extends Canvas implements ActionListener {
             System.out.println("Piece sel: " + pieceSel);
             System.out.println("Piece sel moving: " + ((pieceSelx != x) || (pieceSely != y)) + "\n" + "x: " + pieceSelx + "  y: " + pieceSely);
             if (pieceSel && ((pieceSelx != x) || (pieceSely != y))) {
-                if (status != State.superpos) {
+                if (entangledPieceSel){
+                    int tmpx = pieceSelx - x;
+                    int tmpy = pieceSely - y;
+                    tmpx += entangledPieceSelx;
+                    tmpy += entangledPieceSely;
+
+                    Piece tmp = deepCopy(piecesOnBoard[pieceSelx][pieceSely]);
+
+                    tmp.updatePiecePos(entangledPieceSelx,entangledPieceSely);
+
+                    if ((tmp.validPos(tmpx,tmpy,piecesOnBoard,State.none))&&((tmpx != x) || (tmpy != y))){ //entangled pieces can not take one another
+                        piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
+                        piecesOnBoard[x][y].updatePiecePos(x, y);
+                        piecesOnBoard[pieceSelx][pieceSely] = null;
+
+                        piecesOnBoard[tmpx][tmpy] = piecesOnBoard[entangledPieceSelx][entangledPieceSely];
+                        piecesOnBoard[tmpx][tmpy].updatePiecePos(tmpx, tmpy);
+                        piecesOnBoard[entangledPieceSelx][entangledPieceSely] = null;
+                        entangledPieceSel = false;
+                    }
+                    else{
+                        entangledPieceSel = false;
+                        mouseHasClicked = false;
+                        pieceSel = false;
+                        status= State.none;
+                        boardGraphics();
+                        return false;
+                    }
+                }
+                else if (status != State.superpos) {
                     piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
                     piecesOnBoard[x][y].updatePiecePos(x, y);
                     piecesOnBoard[pieceSelx][pieceSely] = null;
@@ -296,6 +345,7 @@ public class Board extends Canvas implements ActionListener {
                     piecesOnBoard[pieceSelx][pieceSely].setSuperPosY(y);
                     piecesOnBoard[pieceSelx][pieceSely].setToSuperPos();
                 }
+                entangledPieceSel = false;
                 mouseHasClicked = false;
                 pieceSel = false;
                 status= State.none;
@@ -303,7 +353,7 @@ public class Board extends Canvas implements ActionListener {
                 return true;
             }
 
-        }else if( piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status) ) {
+        }else if(!entangledPieceSel && (piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status))) { //entangled pieces should not be able to take
             System.out.println("MovePiece can take?");
             Piece taken = piecesOnBoard[x][y];
             player1.insertPieceTaken(taken);    //for just player1 need to handle with gameTurn
@@ -319,7 +369,9 @@ public class Board extends Canvas implements ActionListener {
             return true;
         }else {
             print("the movement is not allowed on that place");
+
             if (x != pieceSelx || y != pieceSely) {
+                entangledPieceSel = false;
                 selectAPiece(x, y);
             }else{
                 pieceSel = false;
@@ -414,10 +466,42 @@ public class Board extends Canvas implements ActionListener {
         else if("Tunneling".equals(e.getActionCommand())){
             status = State.tunneling;
         }
+        else if("Entanglement".equals(e.getActionCommand())){
+            status = State.entangled;
+        }
+        else if ("Surrender".equals(e.getActionCommand())){
+
+        }
+        else if ("Swap".equals(e.getActionCommand())){
+
+        }
         boardGraphics();
     }
 
     private int collapse(){
         return (int)(Math.random() + 0.49);
+    }
+
+    //deep copies the piece however it supposes it is the piece  of the other player
+    private Piece deepCopy(Piece piece){
+        if(piece.getClass() == Pawn.class){
+            return new Pawn(piece,((piece.getPlayer()%2)+1));
+        }
+        else if(piece.getClass() == Bishop.class){
+            return new Bishop(piece,((piece.getPlayer()%2)+1));
+        }
+        else if(piece.getClass() == King.class){
+            return new King(piece,((piece.getPlayer()%2)+1));
+        }
+        else if(piece.getClass() == Knight.class){
+            return new Knight(piece,((piece.getPlayer()%2)+1));
+        }
+        else if(piece.getClass() == Queen.class){
+            return new Queen(piece,((piece.getPlayer()%2)+1));
+        }
+        else if(piece.getClass() == Rook.class){
+            return new Rook(piece,((piece.getPlayer()%2)+1));
+        }
+        return null;
     }
 }

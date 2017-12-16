@@ -9,6 +9,10 @@ public class King extends Piece {
         calculatePossibleMoves();
     }
 
+    public King(Piece copy, int player){
+        super(copy,player);
+    }
+
     //@Override
     public void move(int x, int y) {
 
