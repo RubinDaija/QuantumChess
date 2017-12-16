@@ -9,6 +9,7 @@ public class Player {
     private int playerNo;
     int tunneling = 5;
     int entanglement = 5;
+    int piecesxceptPawn = 0;
 
     public Player(String pName,int pNo){
         playerName = pName;
@@ -62,6 +63,9 @@ public class Player {
         this.piecesTaken = new ArrayList<Piece>();
     }
     public void insertPieceTaken(Piece piece){
+        if(piece.getClass() != Pawn.class){
+            piecesxceptPawn++;
+        }
         piecesTaken.add(piece);
     }
 
@@ -79,5 +83,9 @@ public class Player {
 
     public int getEntanglement() {
         return entanglement;
+    }
+
+    public int getNumberOfPieces(){
+        return piecesxceptPawn;
     }
 }
