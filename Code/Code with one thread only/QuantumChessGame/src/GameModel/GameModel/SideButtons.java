@@ -3,6 +3,7 @@ package GameModel;
 import EntityModel.King;
 import EntityModel.Pawn;
 import EntityModel.Piece;
+import EntityModel.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +17,10 @@ public class SideButtons extends JPanel{
     JButton surrender;
     JButton swap;
     JPanel buttons = new JPanel();
-    private JPanel turnPlayer = new JPanel(new BorderLayout());
-    private JLabel turnInfo = new JLabel("AAAAAAAAAAAAAAAAAAA");
+    private JPanel turnPlayer = new JPanel(new GridLayout(2,0));
+    private JLabel turnInfo = new JLabel(new ImageIcon("turn-logo.jpg"));
+    private JLabel playerName = new JLabel("");
+
 
 
     public SideButtons(int widht, int height, Board board){
@@ -35,7 +38,11 @@ public class SideButtons extends JPanel{
         surrender.addActionListener(board);
         swap.addActionListener(board);
 
-        buttons.setPreferredSize(new Dimension(widht,height));
+
+
+        playerName.setFont(new Font("Serif", Font.PLAIN, 25));
+
+        buttons.setPreferredSize(new Dimension(widht,height/2));
         buttons.setBackground(Color.white);
         buttons.setLayout(new BoxLayout(buttons,BoxLayout.Y_AXIS));
         buttons.add(supperpos);
@@ -44,15 +51,19 @@ public class SideButtons extends JPanel{
         buttons.add(observe);
         buttons.add(surrender);
         buttons.add(swap);
-        turnInfo.setText("AAAAA");
-        turnPlayer.add(turnInfo,BorderLayout.CENTER);
+
+
+        turnPlayer.setPreferredSize(new Dimension(widht,30));
+
+        setPreferredSize(new Dimension(widht,height));
         setLayout(new BorderLayout());
+        turnPlayer.setBackground(Color.WHITE);
         add(buttons,BorderLayout.NORTH);
-        add(turnPlayer,BorderLayout.SOUTH);
+        add(turnPlayer,BorderLayout.CENTER);
         disableEverything();
     }
 
-    public void update(Piece piece,int entanglement,int tunneling,boolean superposallowed,boolean issuperpos){
+    public void update(Piece piece, int entanglement, int tunneling, boolean superposallowed, boolean issuperpos, Player pl){
         if (piece.isDummy() || piece.isSupperPos()){
             observe.setVisible(true);
         }
@@ -80,6 +91,12 @@ public class SideButtons extends JPanel{
                 observe.setVisible(true);
             }
         }
+        turnPlayer.add(turnInfo);
+        turnInfo.setHorizontalAlignment(JLabel.CENTER);
+        playerName.setText(pl.getPlayerName());
+        playerName.setHorizontalAlignment(JLabel.CENTER);
+        turnPlayer.add(playerName);
+        turnPlayer.setVisible(true);
 
     }
 

@@ -122,10 +122,11 @@ public class MenuManager extends JFrame{
         {
             playerNamesObj.player1Name = playerNamesObj.player1Input.getText();
             playerNamesObj.player2Name = playerNamesObj.player2Input.getText();
+
             System.out.println("Player1 Name: " +  playerNamesObj.player1Name);
             System.out.println("Player2 Name: " + playerNamesObj.player2Name);
 
-            final QuantumChess quantumChess = new QuantumChess(640,640);
+            final QuantumChess quantumChess = new QuantumChess(640,640,playerNamesObj.player1Name,playerNamesObj.player2Name);
             this.setVisible(false); // now menu gone :D
             SwingUtilities.invokeLater(new Runnable() {
                 @Override

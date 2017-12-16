@@ -253,9 +253,15 @@ public abstract class Piece {
         superPosBol = true;
     }
 
-    public void setToNormal(){
-        superPosBol = false;
-        superPosAllowed = false;
+    public void setToNormal(boolean enemy) {
+        if (!enemy) {
+            superPosBol = false;
+            superPosAllowed = false;
+        }
+        else {
+            superPosBol = false;
+
+        }
     }
     public BufferedImage getFullImage() {
         return fullImage;

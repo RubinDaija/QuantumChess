@@ -31,8 +31,8 @@ public class playerNamesPanel extends JPanel {
         startBtnPanel.add(startBtn);
 
 
-        player1Input = new JTextField("Enter Name");
-        player2Input = new JTextField("Enter Name");
+        player1Input = new JTextField("Player One");
+        player2Input = new JTextField("Player Two");
 
         player1Input.setBounds(370,170,100,20);
         player2Input.setBounds(560,170,100,20);

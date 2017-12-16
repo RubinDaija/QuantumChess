@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class WinnerPopUp extends JFrame{
-    ImageIcon bck = new ImageIcon("con.gif"); /* to get Image size */
+    ImageIcon bck = new ImageIcon("_con.gif"); /* to get Image size */
     JLabel background = new JLabel(bck);
     JPanel mainP = new JPanel();
     JPanel winnerName = new JPanel();

@@ -49,7 +49,7 @@ public class Board extends Canvas implements ActionListener {
     private int pieceSely;
     private boolean pieceSel;
     private SideButtons buttons;
-    Player player1,player2;
+    public Player player1,player2;
 
     //these keep the cordinates of the entangled piece selected and it is selected
     private int entangledPieceSelx;
@@ -173,9 +173,9 @@ public class Board extends Canvas implements ActionListener {
                                 renderSquareGraphic(g,x,y,Color.yellow);
                             }
                             else if (y  % 2 == 0) {
-                                    if (x % 2 == 0) {
-                                        renderSquareGraphic(g, x, y, black);
-                                    }
+                                if (x % 2 == 0) {
+                                    renderSquareGraphic(g, x, y, black);
+                                }
                             }
                             else if (y % 2 == 1){
                                 if (x % 2 == 1) {
@@ -186,10 +186,10 @@ public class Board extends Canvas implements ActionListener {
                     }
                     if(pieceSel && (piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)){
                         if (piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() == 1){
-                            buttons.update(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick],player1.getEntanglement(), player1.getTunneling(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSuperPosAllowed(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSupperPos());
+                            buttons.update(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick],player1.getEntanglement(), player1.getTunneling(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSuperPosAllowed(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSupperPos(),player1);
                         }
                         else{
-                            buttons.update(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick],player2.getEntanglement(), player2.getTunneling(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSuperPosAllowed(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSupperPos());
+                            buttons.update(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick],player2.getEntanglement(), player2.getTunneling(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSuperPosAllowed(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSupperPos(),player2);
                         }
                     }
                     if (pieceSel &&  !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
@@ -230,11 +230,11 @@ public class Board extends Canvas implements ActionListener {
                                 }
                             }
                             else{
-                                    passPiece = 0;
-                                    opponentsEncountered = 0;
-                                }
-
+                                passPiece = 0;
+                                opponentsEncountered = 0;
                             }
+
+                        }
 
                     }
                     //This if is to show the red squares for the paws, To graphically show if the pawn can take a piece or not
@@ -242,8 +242,8 @@ public class Board extends Canvas implements ActionListener {
                         int tmpPosX = piecesOnBoard[pieceSelx][pieceSely].getPosx();
                         int tmpPosy = piecesOnBoard[pieceSelx][pieceSely].getPosY();
                         if ((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) && ( tmpPosy<= 6) && (tmpPosy >= 1)){
-                           if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy-1])) ) {//check if you can draw the right red square
-                               renderSquareGraphic(g, tmpPosX + 1, tmpPosy - 1, red);
+                            if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() < 7) && (piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX+1][tmpPosy-1])) ) {//check if you can draw the right red square
+                                renderSquareGraphic(g, tmpPosX + 1, tmpPosy - 1, red);
                             }
                             if( (piecesOnBoard[pieceSelx][pieceSely].getPosx() > 0)&&(piecesOnBoard[pieceSelx][pieceSely].isOpponent(piecesOnBoard[tmpPosX-1][tmpPosy-1]))){ //check if you can draw the left red square
                                 renderSquareGraphic(g, tmpPosX - 1, tmpPosy - 1, red);
@@ -378,7 +378,7 @@ public class Board extends Canvas implements ActionListener {
                             player2.decrementTunneling();
                         }
                     }
-                   // piecesOnBoard[pieceSelx][pieceSely] = null;
+                    // piecesOnBoard[pieceSelx][pieceSely] = null;
                 }
                 else{ //if superpos is selected this will be done
                     piecesOnBoard[x][y] = new Piece(x,y,pieceSelx,pieceSely,piecesOnBoard[pieceSelx][pieceSely].getPlayer()) {
@@ -399,29 +399,38 @@ public class Board extends Canvas implements ActionListener {
                 boardGraphics();
                 return true;
             }
-        //the piece is being taken
+            //the piece is being taken
         }else if(!piecesOnBoard[pieceSelx][pieceSely].isDummy() && !entangledPieceSel && (piecesOnBoard[pieceSelx][pieceSely].canTake(x,y,piecesOnBoard,status))) { //entangled pieces should not be able to take
             System.out.println("MovePiece can take?");
+            observe(true,x,y);
             Piece taken = piecesOnBoard[x][y];
-            if(taken.getClass() == King.class){// <+++++++++++++++++++++++HEre is a place for winner pop up
-                if(taken.getPlayer() == 1){
-                    winnerPopup(player2);
-                }
-                else {
-                    winnerPopup(player1);
-                }
-                System.exit(0);
+            if(taken == null){
+                piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
+                piecesOnBoard[x][y].updatePiecePos(x, y);
+                piecesOnBoard[pieceSelx][pieceSely] = null;
             }
-            if (piecesOnBoard[x][y].getPlayer() == 1){
-                player1.insertPieceTaken(taken);
-            }else{
-                player2.insertPieceTaken(taken);
-            }
+            else {
+                if(taken.getClass() == King.class){// <+++++++++++++++++++++++HEre is a place for winner pop up
+                    if(taken.getPlayer() == 1){
+                        winnerPopup(player2);
+                    }
+                    else {
+                        winnerPopup(player1);
+                    }
+                    System.exit(0);
+                }
+                if (piecesOnBoard[x][y].getPlayer() == 1){
+                    player1.insertPieceTaken(taken);
+                }else{
+                    player2.insertPieceTaken(taken);
+                }
 
 
-            piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
-            piecesOnBoard[x][y].updatePiecePos(x, y);
-            piecesOnBoard[pieceSelx][pieceSely] = null;
+                piecesOnBoard[x][y] = piecesOnBoard[pieceSelx][pieceSely];
+                piecesOnBoard[x][y].updatePiecePos(x, y);
+                piecesOnBoard[pieceSelx][pieceSely] = null;
+            }
+
             mouseHasClicked = false;
             pieceSel = false;
             status= State.none;
@@ -483,50 +492,8 @@ public class Board extends Canvas implements ActionListener {
             print("SupperPositionActivated");
         }
         else if (("Observe".equals(e.getActionCommand()))&& pieceSel) {
+            observe(false,pieceSelx,pieceSely);
 
-            int tmp = collapse();
-            print("The Collapse Function Resulted in " + tmp);
-            if(tmp == 1){
-                if (piecesOnBoard[pieceSelx][pieceSely].isDummy()){
-                    tmp = piecesOnBoard[pieceSelx][pieceSely].getPosx();
-                    int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getPosY();
-                    piecesOnBoard[pieceSelx][pieceSely] = null;
-                    pieceSelx = tmp;
-                    pieceSely = tmp2;
-                    piecesOnBoard[pieceSelx][pieceSely].setToNormal();
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
-
-                }
-                else{
-                    tmp = piecesOnBoard[pieceSelx][pieceSely].getSuperPosX();
-                    int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getSuperPosY();
-                    piecesOnBoard[tmp][tmp2] = null;
-                    piecesOnBoard[pieceSelx][pieceSely].setToNormal();
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
-                }
-
-            }
-            else{
-                if (piecesOnBoard[pieceSelx][pieceSely].isDummy()){
-                    tmp = piecesOnBoard[pieceSelx][pieceSely].getPosx();
-                    int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getPosY();
-                    piecesOnBoard[pieceSelx][pieceSely] = piecesOnBoard[tmp][tmp2];
-                    piecesOnBoard[pieceSelx][pieceSely].setToNormal();
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
-                    piecesOnBoard[tmp][tmp2] = null;
-
-                }
-                else{
-                    tmp = piecesOnBoard[pieceSelx][pieceSely].getSuperPosX();
-                    int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getSuperPosY();
-                    piecesOnBoard[tmp][tmp2] =  piecesOnBoard[pieceSelx][pieceSely];
-                    piecesOnBoard[pieceSelx][pieceSely] = null;
-                    pieceSelx = tmp;
-                    pieceSely = tmp2;
-                    piecesOnBoard[pieceSelx][pieceSely].setToNormal();
-                    piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
-                }
-            }
         }
         else if("Tunneling".equals(e.getActionCommand())){
             status = State.tunneling;
@@ -662,5 +629,50 @@ public class Board extends Canvas implements ActionListener {
                 this,player.getPlayerName() +" won the game","Congratz",JOptionPane.OK_CANCEL_OPTION
         );
 
+    }
+    public void observe(boolean enemy,int pieceSelx,int pieceSely){
+        int tmp = collapse();
+        print("The Collapse Function Resulted in " + tmp);
+        if(tmp == 1){
+            if (piecesOnBoard[pieceSelx][pieceSely].isDummy()){
+                tmp = piecesOnBoard[pieceSelx][pieceSely].getPosx();
+                int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getPosY();
+                piecesOnBoard[pieceSelx][pieceSely] = null;
+                pieceSelx = tmp;
+                pieceSely = tmp2;
+                piecesOnBoard[pieceSelx][pieceSely].setToNormal(enemy);
+                piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
+
+            }
+            else{
+                tmp = piecesOnBoard[pieceSelx][pieceSely].getSuperPosX();
+                int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getSuperPosY();
+                piecesOnBoard[tmp][tmp2] = null;
+                piecesOnBoard[pieceSelx][pieceSely].setToNormal(enemy);
+                piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
+            }
+
+        }
+        else{
+            if (piecesOnBoard[pieceSelx][pieceSely].isDummy()){
+                tmp = piecesOnBoard[pieceSelx][pieceSely].getPosx();
+                int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getPosY();
+                piecesOnBoard[pieceSelx][pieceSely] = piecesOnBoard[tmp][tmp2];
+                piecesOnBoard[pieceSelx][pieceSely].setToNormal(enemy);
+                piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
+                piecesOnBoard[tmp][tmp2] = null;
+
+            }
+            else{
+                tmp = piecesOnBoard[pieceSelx][pieceSely].getSuperPosX();
+                int tmp2 = piecesOnBoard[pieceSelx][pieceSely].getSuperPosY();
+                piecesOnBoard[tmp][tmp2] =  piecesOnBoard[pieceSelx][pieceSely];
+                piecesOnBoard[pieceSelx][pieceSely] = null;
+                pieceSelx = tmp;
+                pieceSely = tmp2;
+                piecesOnBoard[pieceSelx][pieceSely].setToNormal(enemy);
+                piecesOnBoard[pieceSelx][pieceSely].updatePiecePos(pieceSelx,pieceSely);
+            }
+        }
     }
 }

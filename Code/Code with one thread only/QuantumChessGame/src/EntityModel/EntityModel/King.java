@@ -13,8 +13,9 @@ public class King extends Piece {
         super(copy,player);
     }
 
-    //@Override
-    public void move(int x, int y) {
+
+    public void setToNormal(boolean enemy){
+        superPosBol = false;
 
     }
 

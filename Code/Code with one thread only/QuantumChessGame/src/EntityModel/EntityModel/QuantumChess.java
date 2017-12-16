@@ -19,13 +19,14 @@ public class QuantumChess extends JFrame implements Runnable,WindowStateListener
 
     private SideButtons buttons; //side buttons
 
-    public QuantumChess(int width,int height) {
+    public QuantumChess(int width,int height,String playerOne, String playerTwo) {
         setLayout(new BorderLayout()); //for the buttons too
         board = new Board(width, height);
 
-        buttons = new SideButtons(190,height,board);//side buttons
+        buttons = new SideButtons(200,height,board);//side buttons
         board.getButtonClass(buttons);
-
+        board.player1.setPlayerName(playerOne);
+        board.player2.setPlayerName(playerTwo);
 
     }
 
