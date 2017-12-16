@@ -92,17 +92,17 @@ public class SwapSelection extends JFrame {
         btKing.addMouseListener(mls);
     }
     public void showSurePopup(String selection){
-        Object[] options = {"Yes,sure","no",
+        Object[] options = {"Yes,sure",
                 "Cancel"};
         int n = JOptionPane.showOptionDialog(this,
                 "Swap pawn  "
                         + "with" + selection+"?",
                 "Selection Sure?",
-                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
-                options[2]);
+                options[1]);
 
             if(n == 0){
                 this.dispose();
@@ -113,12 +113,10 @@ public class SwapSelection extends JFrame {
         JFrame main =new JFrame();
         main.setPreferredSize(new Dimension(300,500));
         SwapSelection swp = new SwapSelection();
-        JLabel sel = new JLabel(swp.selection);
+        while(swp.isActive()){}
+        String sp = swp.selection;
         JPanel asd = new JPanel();
-        asd.add(sel);
-        main.add(sel);
-        main.pack();
-        main.setVisible(true);
+        System.out.println(sp);
     }
 }
 
