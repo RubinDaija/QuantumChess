@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="QuantumChessGame:jar">
+    <output-path>$PROJECT_DIR$/out</output-path>
+    <root id="archive" name="QuantumChessGame.jar">
+      <element id="module-output" name="QuantumChessGame" />
+    </root>
+  </artifact>
+</component>

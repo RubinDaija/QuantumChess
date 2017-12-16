@@ -594,7 +594,7 @@ public class Board extends Canvas implements ActionListener {
     }
 
     private int collapse(){
-        return (int)(Math.random() + 0.4321);
+        return (int)(Math.random() + 0.49876543210);
     }
 
     //deep copies the piece however it supposes it is the piece  of the other player
