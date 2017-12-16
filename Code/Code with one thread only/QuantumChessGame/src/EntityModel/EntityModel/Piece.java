@@ -12,9 +12,6 @@ import java.util.Iterator;
 
 public abstract class Piece {
     protected boolean superPosBol;
-
-
-
     protected Color color;
     //protected boolean taken;
     private boolean dummy;
@@ -70,13 +67,14 @@ public abstract class Piece {
 
 
     //i used to create a dummy piece
-    public Piece(int superPosX, int superPosY, int parentx, int parentY){ //constructor for dummy piece
+    public Piece(int superPosX, int superPosY, int parentx, int parentY,int player){ //constructor for dummy piece
         this.superPosX = superPosX;
         this.superPosY = superPosY;
         posX = parentx;
         posY = parentY;
         dummy = true;
         superPosBol = true;
+        this.player = player;
     }
 
     //checks if the position selected x ,y is valid for this piece
@@ -301,6 +299,7 @@ public abstract class Piece {
     public int getPlayer(){
         return player;
     }
+
     public Color getColor() {
         return color;
     }

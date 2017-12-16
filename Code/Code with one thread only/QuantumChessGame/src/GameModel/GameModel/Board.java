@@ -25,8 +25,8 @@ public class Board extends Canvas implements ActionListener {
     private int unitX; //the width of a single unit square
     private int unitY; //the height of a single unit square
 
-    private static int cordXOfMouseClick = -1; //the x coordinate [0-7]
-    private static int cordYOfMouseClick = -1;  //the y coordinate [0-7]
+    private static int cordXOfMouseClick = 3; //the x coordinate [0-7]
+    private static int cordYOfMouseClick = 3;  //the y coordinate [0-7]
     private static boolean mouseHasClicked = false; //if the area where there was a click is selected or de-selected
 
     private volatile MouseListenerBoard mouseListenerBoard; //move to the quantum chess part , to much concentrated on the board job
@@ -50,6 +50,8 @@ public class Board extends Canvas implements ActionListener {
     private boolean entangledPieceSel;
 
     public Board (int width, int height){
+        pieceSelx = 3;
+        pieceSely = 3;
         this.width = width;
         this.height = height;
         unitX = width / 8;
@@ -91,7 +93,7 @@ public class Board extends Canvas implements ActionListener {
                     cordYOfMouseClick = e.getY() / unitY;
                     print("Cordx.sys: " + cordXOfMouseClick + " Cordy.sys: " + cordYOfMouseClick);
                 }
-                if ((piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)&&(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() != turn)){
+                if ((piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick] != null)&& pieceSel&&(!piecesOnBoard[pieceSelx][pieceSely].isSupperPos())&&!entangledPieceSel && (status != State.entangled) && (!piecesOnBoard[pieceSelx][pieceSely].canTake(cordXOfMouseClick,cordYOfMouseClick,piecesOnBoard,status))&&(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].getPlayer() != turn)){
                     pieceSel = false;
                 }
                 if (pieceSel && (status != State.entangled)) {
@@ -369,7 +371,7 @@ public class Board extends Canvas implements ActionListener {
                    // piecesOnBoard[pieceSelx][pieceSely] = null;
                 }
                 else{ //if superpos is selected this will be done
-                    piecesOnBoard[x][y] = new Piece(x,y,pieceSelx,pieceSely) {
+                    piecesOnBoard[x][y] = new Piece(x,y,pieceSelx,pieceSely,piecesOnBoard[pieceSelx][pieceSely].getPlayer()) {
                         @Override
                         public boolean validPos(int x, int y, Piece[][] piecesOnBoard,State state) {
                             return super.validPos(x, y, piecesOnBoard,State.none);
@@ -401,6 +403,8 @@ public class Board extends Canvas implements ActionListener {
             boardGraphics();
             player1.getPiecesTaken(); //for just player1 need to handle with gameTurn
             //player1.getPiecesPicturesTaken(); it will be uncommented when inside of method is done.
+
+            changeTurn();
             return true;
         }else {
             print("the movement is not allowed on that place");
@@ -521,9 +525,6 @@ public class Board extends Canvas implements ActionListener {
                 else{
                     piecesOnBoard[pieceSelx][pieceSely]=   new Bishop(pieceSelx,pieceSely,"piece_pictures/white"+selection+"_full.png","piece_pictures/white_"+selection+"_superpos.png",unitX,unitY,oldPawn.getColor(),oldPawn.getPlayer());
                 }
-
-
-
             }
             //pieceSelection.dispose();
         }

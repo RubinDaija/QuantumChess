@@ -45,7 +45,7 @@ public class SideButtons extends JPanel{
     }
 
     public void update(Piece piece,int entanglement,int tunneling,boolean superposallowed,boolean issuperpos){
-        if (piece.isDummy()){
+        if (piece.isDummy() || piece.isSupperPos()){
             observe.setVisible(true);
         }
         else {
