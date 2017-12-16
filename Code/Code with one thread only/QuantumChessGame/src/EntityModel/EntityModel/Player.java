@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class Player {
-    ArrayList<Piece> piecesTaken;
+    ArrayList<Piece> piecesTaken; //the pieces that  this player has lost
     private String playerName;
     private int playerNo;
+    int tunneling = 5;
+    int entanglement = 5;
 
     public Player(String pName,int pNo){
         playerName = pName;
@@ -32,6 +34,7 @@ public class Player {
     }
 
     public void getPiecesTaken() {
+        //you can just return the arraylist and then they can take the pictures from the arraylist  easier that way <<++NOTE
         for (Piece takenPiece: piecesTaken){
             // to see which piece is taken.
             System.out.println(takenPiece.getClass());
@@ -61,6 +64,19 @@ public class Player {
         piecesTaken.add(piece);
     }
 
+    public void decrementEntanglement(){
+        entanglement--;
+    }
 
+    public void decrementTunneling(){
+        tunneling--;
+    }
 
+    public int getTunneling() {
+        return tunneling;
+    }
+
+    public int getEntanglement() {
+        return entanglement;
+    }
 }

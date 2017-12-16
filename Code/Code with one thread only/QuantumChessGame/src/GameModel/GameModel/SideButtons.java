@@ -1,5 +1,9 @@
 package GameModel;
 
+import EntityModel.King;
+import EntityModel.Pawn;
+import EntityModel.Piece;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -36,6 +40,48 @@ public class SideButtons extends JPanel{
         add(observe);
         add(surrender);
         add(swap);
+
+        disableEverything();
+    }
+
+    public void update(Piece piece,int entanglement,int tunneling,boolean superposallowed,boolean issuperpos){
+        if (piece.isDummy()){
+            observe.setVisible(true);
+        }
+        else {
+            if (piece.getClass() == King.class) {
+                surrender.setVisible(true);
+            }
+            if (piece.getClass() == Pawn.class) {
+                if ((piece.getPlayer() == 1) && (piece.getPosY() == 0)) {
+                    swap.setVisible(true);
+                } else if ((piece.getPlayer() == 2) && (piece.getPosY() == 7)) {
+                    swap.setVisible(true);
+                }
+            }
+            if (superposallowed) {
+                supperpos.setVisible(true);
+            }
+            if (tunneling > 0) {
+                this.tunneling.setVisible(true);
+            }
+            if (entanglement > 0) {
+                this.entanglement.setVisible(true);
+            }
+            if (issuperpos) {
+                observe.setVisible(true);
+            }
+        }
+
+    }
+
+    public void disableEverything(){
+        supperpos.setVisible(false);
+        entanglement.setVisible(false);
+        tunneling.setVisible(false);
+        observe.setVisible(false);
+        surrender.setVisible(false);
+        swap.setVisible(false);
     }
 
     @Override

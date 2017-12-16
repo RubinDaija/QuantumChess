@@ -125,7 +125,7 @@ public class MenuManager extends JFrame{
             /*
             if we cannot fix panel problem we can do this.
              */
-            final QuantumChess quantumChess = new QuantumChess(700,800);
+            final QuantumChess quantumChess = new QuantumChess(640,640);
             this.setVisible(false); // now menu gone :D
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
