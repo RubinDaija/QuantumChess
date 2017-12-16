@@ -100,7 +100,7 @@ public class Board extends Canvas implements ActionListener {
                 /* this if also gives nullPtr exception when you try to swap pawn.*/
                 if (pieceSel && (status != State.entangled)) {
                     movePiece(cordXOfMouseClick, cordYOfMouseClick);
-//                    pieceSel = false;
+//                    pieceSel = false; ----
                 }
 
                 //checking if it is entangeling another piece

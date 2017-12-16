@@ -62,17 +62,17 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="99" column="82" lean-forward="false" selection-start-line="99" selection-start-column="82" selection-end-line="99" selection-end-column="82" />
+            <state relative-caret-position="226">
+              <caret line="102" column="44" lean-forward="false" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
               <folding>
-                <element signature="e#5496#5497#0" expanded="true" />
-                <element signature="e#5523#5524#0" expanded="true" />
-                <element signature="e#25264#25265#0" expanded="true" />
-                <element signature="e#25303#25304#0" expanded="true" />
-                <element signature="e#28920#28921#0" expanded="true" />
-                <element signature="e#28972#28973#0" expanded="true" />
-                <element signature="e#29888#29889#0" expanded="true" />
-                <element signature="e#29923#29924#0" expanded="true" />
+                <element signature="e#5501#5502#0" expanded="true" />
+                <element signature="e#5528#5529#0" expanded="true" />
+                <element signature="e#25269#25270#0" expanded="true" />
+                <element signature="e#25308#25309#0" expanded="true" />
+                <element signature="e#28925#28926#0" expanded="true" />
+                <element signature="e#28977#28978#0" expanded="true" />
+                <element signature="e#29893#29894#0" expanded="true" />
+                <element signature="e#29928#29929#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -492,7 +492,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46819000" />
+    <option name="totallyTimeSpent" value="46923000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -773,17 +773,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="99" column="82" lean-forward="false" selection-start-line="99" selection-start-column="82" selection-end-line="99" selection-end-column="82" />
+        <state relative-caret-position="226">
+          <caret line="102" column="44" lean-forward="false" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
           <folding>
-            <element signature="e#5496#5497#0" expanded="true" />
-            <element signature="e#5523#5524#0" expanded="true" />
-            <element signature="e#25264#25265#0" expanded="true" />
-            <element signature="e#25303#25304#0" expanded="true" />
-            <element signature="e#28920#28921#0" expanded="true" />
-            <element signature="e#28972#28973#0" expanded="true" />
-            <element signature="e#29888#29889#0" expanded="true" />
-            <element signature="e#29923#29924#0" expanded="true" />
+            <element signature="e#5501#5502#0" expanded="true" />
+            <element signature="e#5528#5529#0" expanded="true" />
+            <element signature="e#25269#25270#0" expanded="true" />
+            <element signature="e#25308#25309#0" expanded="true" />
+            <element signature="e#28925#28926#0" expanded="true" />
+            <element signature="e#28977#28978#0" expanded="true" />
+            <element signature="e#29893#29894#0" expanded="true" />
+            <element signature="e#29928#29929#0" expanded="true" />
           </folding>
         </state>
       </provider>
