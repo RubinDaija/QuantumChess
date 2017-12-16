@@ -38,8 +38,8 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="558" column="75" lean-forward="false" selection-start-line="558" selection-start-column="75" selection-end-line="558" selection-end-column="75" />
+            <state relative-caret-position="230">
+              <caret line="563" column="17" lean-forward="true" selection-start-line="563" selection-start-column="17" selection-end-line="563" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5568#5569#0" expanded="true" />
@@ -280,7 +280,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MenuManager">
+  <component name="RunManager" selected="Application.QuantumChess">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -462,12 +462,12 @@
       <workItem from="1513414964476" duration="479000" />
       <workItem from="1513420873776" duration="824000" />
       <workItem from="1513424250166" duration="165000" />
-      <workItem from="1513424554721" duration="20725000" />
+      <workItem from="1513424554721" duration="21037000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56419000" />
+    <option name="totallyTimeSpent" value="56731000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
@@ -712,8 +712,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="558" column="75" lean-forward="false" selection-start-line="558" selection-start-column="75" selection-end-line="558" selection-end-column="75" />
+        <state relative-caret-position="230">
+          <caret line="563" column="17" lean-forward="true" selection-start-line="563" selection-start-column="17" selection-end-line="563" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5568#5569#0" expanded="true" />
