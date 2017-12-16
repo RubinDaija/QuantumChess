@@ -157,6 +157,9 @@ public class Board extends Canvas implements ActionListener {
                 try{
                     g = bufferStrategy.getDrawGraphics();
                     g.clearRect(0,0,width,height);
+                    if (pieceSel){ //Bug fix because when it was entagled it would remove the yellow mark selection just show green
+                        renderSquareGraphic(g,pieceSelx,pieceSely,Color.YELLOW);
+                    }
                     for (int y = 0 ; y < 8; y++){
                         for (int x = 0; x < 8; x++){
                             if ((y == cordYOfMouseClick && x == cordXOfMouseClick) && mouseHasClicked){

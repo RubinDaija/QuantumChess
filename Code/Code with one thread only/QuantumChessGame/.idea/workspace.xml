@@ -69,14 +69,14 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="526" column="17" lean-forward="false" selection-start-line="526" selection-start-column="17" selection-end-line="526" selection-end-column="17" />
+            <state relative-caret-position="163">
+              <caret line="159" column="131" lean-forward="false" selection-start-line="159" selection-start-column="131" selection-end-line="159" selection-end-column="131" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5325#5326#0" expanded="true" />
                 <element signature="e#5352#5353#0" expanded="true" />
-                <element signature="e#30167#30168#0" expanded="true" />
-                <element signature="e#30202#30203#0" expanded="true" />
+                <element signature="e#30402#30403#0" expanded="true" />
+                <element signature="e#30437#30438#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -109,6 +109,7 @@
       <find>boardGr</find>
       <find>movePi</find>
       <find>piecesOnBoard</find>
+      <find>yellow</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -151,7 +152,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="401" />
     <option name="y" value="190" />
     <option name="width" value="697" />
@@ -417,15 +418,15 @@
       <workItem from="1513414964476" duration="479000" />
       <workItem from="1513420873776" duration="824000" />
       <workItem from="1513424250166" duration="165000" />
-      <workItem from="1513424554721" duration="10183000" />
+      <workItem from="1513424554721" duration="10801000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45877000" />
+    <option name="totallyTimeSpent" value="46495000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -497,7 +498,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java</url>
-          <line>178</line>
+          <line>181</line>
           <properties />
           <option name="timeStamp" value="38" />
         </line-breakpoint>
@@ -643,14 +644,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameModel/GameModel/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="526" column="17" lean-forward="false" selection-start-line="526" selection-start-column="17" selection-end-line="526" selection-end-column="17" />
+        <state relative-caret-position="163">
+          <caret line="159" column="131" lean-forward="false" selection-start-line="159" selection-start-column="131" selection-end-line="159" selection-end-column="131" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5325#5326#0" expanded="true" />
             <element signature="e#5352#5353#0" expanded="true" />
-            <element signature="e#30167#30168#0" expanded="true" />
-            <element signature="e#30202#30203#0" expanded="true" />
+            <element signature="e#30402#30403#0" expanded="true" />
+            <element signature="e#30437#30438#0" expanded="true" />
           </folding>
         </state>
       </provider>
