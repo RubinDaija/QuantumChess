@@ -13,9 +13,9 @@ public class CreditsMenu extends JPanel{
     
   public JPanel initComponents()
     {
-        JLabel background= new JLabel(new ImageIcon("background.jpg"));
+        JLabel background= new JLabel(new ImageIcon("backgroundcredits.jpg"));
         JPanel backPanel = new JPanel();
-        JLabel creditsLogo= new JLabel(new ImageIcon("credits.gif"));
+        //JLabel creditsLogo= new JLabel(new ImageIcon("credits.gif"));
 
         backButton1 = new JButton("Back");
         backPanel.setLayout(new GridLayout());
@@ -24,8 +24,8 @@ public class CreditsMenu extends JPanel{
         backPanel.add(backButton1);
         background.add(backPanel);
 
-        creditsLogo.setBounds(70,20, 200,  100 );
-        background.add(creditsLogo);
+       // creditsLogo.setBounds(70,20, 200,  100 );
+      //  background.add(creditsLogo);
 
         creditsPanel = new JPanel();
         creditsPanel.setLayout(new BoxLayout(creditsPanel, BoxLayout.Y_AXIS));

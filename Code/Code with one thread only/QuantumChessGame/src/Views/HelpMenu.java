@@ -12,8 +12,8 @@ public class HelpMenu extends JPanel {
     
     public JPanel initComponents()
     {
-        JLabel background= new JLabel(new ImageIcon("background.jpg"));
-        JLabel aboutLogo= new JLabel(new ImageIcon("about.gif"));
+        JLabel background= new JLabel(new ImageIcon("backgroundabout.jpg"));
+       // JLabel aboutLogo= new JLabel(new ImageIcon("about.gif"));
         JPanel backPanel2 = new JPanel();
 
         backButton2 = new JButton("Back");
@@ -23,8 +23,8 @@ public class HelpMenu extends JPanel {
         backPanel2.add(backButton2);
         background.add(backPanel2);
 
-        aboutLogo.setBounds(70,20, 200,  100 );
-        background.add(aboutLogo);
+      //  aboutLogo.setBounds(70,20, 200,  100 );
+      //  background.add(aboutLogo);
 
         aboutPanel = new JPanel();
         aboutPanel.setLayout(new BoxLayout(aboutPanel, BoxLayout.Y_AXIS));
