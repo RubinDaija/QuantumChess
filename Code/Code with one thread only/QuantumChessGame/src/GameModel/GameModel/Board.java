@@ -192,7 +192,7 @@ public class Board extends Canvas implements ActionListener {
                             buttons.update(piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick],player2.getEntanglement(), player2.getTunneling(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSuperPosAllowed(),piecesOnBoard[cordXOfMouseClick][cordYOfMouseClick].isSupperPos(),player2);
                         }
                     }
-                    if (pieceSel &&  !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
+                    if (pieceSel && (piecesOnBoard[pieceSelx][pieceSely] != null) && !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
                         Point tmp;
                         int passPiece = 0;
                         int opponentsEncountered = 0;
@@ -238,7 +238,7 @@ public class Board extends Canvas implements ActionListener {
 
                     }
                     //This if is to show the red squares for the paws, To graphically show if the pawn can take a piece or not
-                    if (!entangledPieceSel && pieceSel &&( piecesOnBoard[pieceSelx][pieceSely].getClass() == Pawn.class )&& !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
+                    if (!entangledPieceSel && pieceSel && (piecesOnBoard[pieceSelx][pieceSely] != null)&&( piecesOnBoard[pieceSelx][pieceSely].getClass() == Pawn.class )&& !piecesOnBoard[pieceSelx][pieceSely].isDummy() && !piecesOnBoard[pieceSelx][pieceSely].isSupperPos()){
                         int tmpPosX = piecesOnBoard[pieceSelx][pieceSely].getPosx();
                         int tmpPosy = piecesOnBoard[pieceSelx][pieceSely].getPosY();
                         if ((piecesOnBoard[pieceSelx][pieceSely].getPlayer() == 1) && ( tmpPosy<= 6) && (tmpPosy >= 1)){
@@ -493,6 +493,7 @@ public class Board extends Canvas implements ActionListener {
         }
         else if (("Observe".equals(e.getActionCommand()))&& pieceSel) {
             observe(false,pieceSelx,pieceSely);
+            pieceSel = false;
 
         }
         else if("Tunneling".equals(e.getActionCommand())){
@@ -594,7 +595,7 @@ public class Board extends Canvas implements ActionListener {
     }
 
     private int collapse(){
-        return (int)(Math.random() + 0.49876543210);
+        return 1;//(int)(Math.random() + 0.49876543210);
     }
 
     //deep copies the piece however it supposes it is the piece  of the other player
